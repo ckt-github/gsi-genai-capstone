@@ -25,7 +25,7 @@ jobs:
     timeout-minutes: 340
     env:
       # SEC fair-access rule: identify the requester. Override with a repository variable if needed.
-      SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'GSI GenAI Capstone research (Walsh College) ckt-github@users.noreply.github.com' }}
+      SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'Chandan Tiwari ckt-github@users.noreply.github.com' }}
       PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4
