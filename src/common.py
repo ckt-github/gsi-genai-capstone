@@ -76,7 +76,7 @@ def sec_preflight():
             print(r.text[:400])
             raise SystemExit("SEC EDGAR refused the request. Check SEC_USER_AGENT ('Name email@domain') "
                              "or run the pipeline from a different network.")
-    print("SEC access OK with User-Agent:", s.headers["User-Agent"])
+    print("SEC access OK")
 
 
 if __name__ == "__main__":
