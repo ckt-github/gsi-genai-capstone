@@ -1,0 +1,6 @@
+RQ1: minimum N = 788
+RQ2: minimum N = 395
+RQ3: minimum N = 1,068
+RQ4: minimum N = 964
+RQ1 per group = 394; RQ3 events-per-variable cross-check = 334
+FINAL N = max = 1,068 firm-quarters
