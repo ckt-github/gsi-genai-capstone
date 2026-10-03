@@ -1,0 +1,20 @@
+variable,role,type,unit,definition_and_source,relevance
+cik,Identifier,Nominal,,"SEC Central Index Key (submissions API); ""NSE:<symbol>"" for Indian firms",Unique firm ID; cluster variable for standard errors
+ticker,Identifier,Nominal,,Exchange ticker (SEC company_tickers.json) or NSE trading symbol,Readability; links to named GSIs
+name,Identifier,Nominal,,Registrant name (SEC submissions API) or company name (config/india_firms.csv),Readability
+MARKET,Grouping; moderator (RQ1 robustness),"Nominal, 2 levels",,US = SEC registrant; India = NSE-listed comparison firm (config/india_firms.csv),Tests whether the post-GenAI shift is common to U.S.-listed and Indian-listed GSIs
+sic,Grouping,Nominal,4-digit code,SEC Standard Industrial Classification code (blank for Indian firms),Defines study universe and SEGMENT
+SEGMENT,"IV (RQ4); control (RQ2, RQ3)","Nominal, 3 levels",,"IT consulting & application services (SIC 7370/7371); Systems integration (7373); Data processing & managed services (7374); Indian firms assigned by business description in config/india_firms.csv (adds Engineering & R&D services, used descriptively only)",Business-model exposure to AI
+FISCAL_QTR,Time index,Ordinal,"Calendar quarter (e.g., 2024Q2)",Fiscal quarter-end mapped to calendar quarter,Aligns different fiscal years
+PERIOD,Grouping,"Nominal, 3 levels",,pre = 2019Q1-2022Q3; transition = 2022Q4; post = 2023Q1-2025Q4,Defines RQ1 groups
+POST_GENAI,IV (RQ1); feature (RQ3),Binary (0/1),,1 if PERIOD = post,Generative-AI era indicator
+REVENUE_USD,Raw input,Continuous (ratio),US dollars,"U.S.: quarterly revenue from XBRL (RevenueFromContractWithCustomerExcludingAssessedTax or Revenues). India: Ind-AS RevenueFromOperations (consolidated, NSE XBRL) divided by the FRED DEXINUS quarterly average INR per USD",Basis for growth and size
+LOG_REVENUE,Control (RQ2); feature (RQ3),Continuous,ln(US dollars),Natural log of REVENUE_USD,Controls for firm size
+REV_GROWTH_YOY,"DV (RQ1, RQ2); feature (RQ3)",Continuous,Percent,"(Revenue_t - Revenue_t-4) / |Revenue_t-4| x 100, in reporting currency (USD for U.S. firms, INR for Indian firms)",Primary performance outcome
+REV_GROWTH_LAG1,Control (RQ2); feature (RQ3),Continuous,Percent,REV_GROWTH_YOY in the previous quarter,Controls for momentum
+DECLINE_Q,DV (RQ4),Binary (0/1),,1 if REV_GROWTH_YOY < 0,Current-quarter revenue decline
+DECLINE_NEXT_Q,DV (RQ3),Binary (0/1),,DECLINE_Q in the next quarter (t+1),Early-warning target
+OP_MARGIN,Control (RQ2); feature (RQ3),Continuous,Percent,U.S.: OperatingIncomeLoss / revenue x 100. India: (ProfitBeforeTax + FinanceCosts - OtherIncome) / RevenueFromOperations x 100,Profitability
+SGA_RATIO,Control (RQ2); feature (RQ3),Continuous,Percent,SellingGeneralAndAdministrativeExpense / revenue x 100 (U.S. only; Ind-AS statements do not report SG&A),Cost structure and sales intensity
+AI_INTENSITY,IV (RQ2); feature (RQ3),Continuous,"Mentions per 10,000 words","AI keyword matches in the 10-Q/10-K text / total words x 10,000 (U.S. only)",Strength of disclosed AI positioning
+GENAI_MENTION,Feature (RQ3),Binary (0/1),,1 if any generative-AI-specific term appears in the 10-Q/10-K (U.S. only),Generative-AI-specific positioning
