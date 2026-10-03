@@ -1,0 +1,86 @@
+name: Data pipeline
+
+# Runs the full study pipeline in the cloud and commits the outputs back to the repository.
+# Start it from the Actions tab ("Run workflow"); it also refreshes automatically once a month.
+on:
+  workflow_dispatch:
+    inputs:
+      refresh_india:
+        description: "Try to refresh the NSE India snapshot from the live NSE site"
+        type: boolean
+        default: true
+  schedule:
+    - cron: "17 3 2 * *"   # 03:17 UTC on the 2nd of each month
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    env:
+      # SEC fair-access rule: identify the requester. Override with a repository variable if needed.
+      SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'GSI GenAI Capstone research (Walsh College) ckt-github@users.noreply.github.com' }}
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore SEC download cache
+        uses: actions/cache@v4
+        with:
+          path: data/raw/submissions
+          key: sec-submissions-${{ github.run_id }}
+          restore-keys: sec-submissions-
+
+      - name: 00 Sample size
+        run: python src/00_sample_size.py | tee results/sample_size.txt
+
+      - name: 01 Build U.S. universe
+        run: python src/01_build_universe.py
+
+      - name: 02 U.S. financials (XBRL)
+        run: python src/02_get_financials.py
+
+      - name: 02b India financials (NSE + FX)
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.refresh_india }}" = "true" ]; then
+            python src/02b_india_financials.py --refresh
+          else
+            python src/02b_india_financials.py
+          fi
+
+      - name: 03 AI-disclosure scores (resumable)
+        run: python src/03_ai_intensity.py
+
+      - name: 04 Build panel
+        run: python src/04_build_panel.py | tee results/panel_summary.txt
+
+      - name: 05 Analysis
+        run: python src/05_analysis.py
+
+      - name: Commit outputs
+        if: always()   # keep partial progress (e.g. AI scores) even if a later step fails
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/interim data/processed results data/raw/india || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Pipeline outputs $(date -u +%Y-%m-%d) [run ${{ github.run_number }}]"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push
+          fi

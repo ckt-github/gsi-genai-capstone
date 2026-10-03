@@ -1,0 +1,30 @@
+name: Checks
+
+# Quick checks on every push: the code compiles, the sample-size numbers reproduce,
+# and the India part of the pipeline runs end to end from the committed snapshot.
+on:
+  push:
+    paths-ignore: ["data/interim/**", "data/processed/**", "results/**"]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt pytest
+      - name: Compile all scripts
+        run: python -m py_compile src/*.py
+      - name: Unit tests
+        run: pytest -q tests
+      - name: Sample size reproduces N = 1,068
+        run: python src/00_sample_size.py | tee /tmp/ss.txt && grep -q "1068\|1,068" /tmp/ss.txt
+      - name: India pipeline from snapshot
+        run: |
+          python src/02b_india_financials.py
+          test "$(python -c "import pandas as p; print(p.read_csv('data/interim/india_financials_quarterly.csv').ticker.nunique())")" = "15"
