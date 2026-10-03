@@ -1,0 +1,8 @@
+# raw SEC downloads are re-created by the scripts (cached in GitHub Actions)
+data/raw/*
+# ...but the India snapshots are committed for reproducibility
+!data/raw/india/
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+.pytest_cache/
