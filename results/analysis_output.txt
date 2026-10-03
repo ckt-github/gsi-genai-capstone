@@ -1,0 +1,50 @@
+Panel: 3,800 firm-quarters (3,452 US, 348 India); 219 firms
+
+RQ1 [US] n_pre=1838 n_post=1479 mean_pre=26.32 mean_post=15.58 diff=-10.74 pp  Welch t=-4.58 p=0.0000 d=-0.158
+     Mann-Whitney p = 0.0000
+RQ1 [India] n_pre=168 n_post=170 mean_pre=15.94 mean_post=11.34 diff=-4.60 pp  Welch t=-3.00 p=0.0029 d=-0.327
+     Mann-Whitney p = 0.0000
+RQ1 robustness: growth ~ POST x MARKET (firm-clustered SEs)
+==================================================================================================================
+                                                     coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------------------
+Intercept                                         26.3193      2.917      9.022      0.000      20.602      32.037
+C(MARKET, Treatment('US'))[T.India]              -10.3766      3.514     -2.953      0.003     -17.263      -3.490
+POST_GENAI                                       -10.7408      3.820     -2.811      0.005     -18.229      -3.253
+POST_GENAI:C(MARKET, Treatment('US'))[T.India]     6.1391      4.221      1.454      0.146      -2.135      14.413
+==================================================================================================================
+
+RQ2  N = 452
+======================================================================================================================
+                                                         coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------------------------------------------
+Intercept                                             33.0938     32.801      1.009      0.313     -31.196      97.383
+C(SEGMENT)[T.IT consulting & application services]    -3.8757      4.905     -0.790      0.429     -13.490       5.738
+C(SEGMENT)[T.Systems integration]                     -1.0779      4.900     -0.220      0.826     -10.683       8.527
+AI_INTENSITY                                           0.9592      0.394      2.437      0.015       0.188       1.731
+LOG_REVENUE                                           -1.4401      1.567     -0.919      0.358      -4.511       1.631
+SGA_RATIO                                             -0.0452      0.119     -0.380      0.704      -0.279       0.188
+OP_MARGIN                                             -0.0084      0.054     -0.157      0.875      -0.114       0.097
+REV_GROWTH_LAG1                                        0.5467      0.090      6.068      0.000       0.370       0.723
+======================================================================================================================
+     R2=0.372 adjR2=0.363 RMSE=44.64 MAE=16.12
+
+RQ3  train=784 valid=144 test=135  decline rate=0.333
+RQ3  logit         AUC=0.777 acc=0.696 prec=0.543 rec=0.556 F1=0.549 Brier=0.246 thr=0.69
+RQ3  random_forest AUC=0.895 acc=0.800 prec=0.655 rec=0.844 F1=0.738 Brier=0.139 thr=0.44
+RQ3  xgboost       AUC=0.848 acc=0.785 prec=0.667 rec=0.711 F1=0.688 Brier=0.162 thr=0.55
+
+RQ4 contingency table
+ DECLINE_Q                               0    1
+SEGMENT                                       
+Data processing & managed services    323  153
+IT consulting & application services  441  215
+Systems integration                   221  126
+     chi2=1.78 df=2 p=0.4115 Cramer's V=0.035  min expected=115.9
+     standardized residuals
+ DECLINE_Q                                    0         1
+SEGMENT                                                 
+Data processing & managed services    0.336342 -0.474937
+IT consulting & application services  0.196643 -0.277672
+Systems integration                  -0.664305  0.938041
+

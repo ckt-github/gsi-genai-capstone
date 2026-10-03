@@ -1,0 +1,9 @@
+MARKET  PERIOD    
+India   post           170
+        pre            168
+        transition      10
+US      post          1479
+        pre           1838
+        transition     135
+dtype: int64
+219 firms, 3,800 firm-quarters
