@@ -58,9 +58,29 @@ def sec_get(url: str, cache: Path | None = None, as_json: bool = True, retries: 
             return r.json() if as_json else r.text
         if r.status_code == 404:
             return None
+        if r.status_code == 403 and attempt >= 1:
+            break  # access refused (User-Agent or IP block); retrying will not help
         time.sleep(2 ** attempt * 2)  # back off on 429 / 5xx
-    print(f"WARNING: giving up on {url}")
+    print(f"WARNING: giving up on {url} (HTTP {r.status_code if 'r' in locals() else 'n/a'})")
     return None
+
+
+def sec_preflight():
+    """Fail fast with a clear message if SEC refuses this machine or User-Agent."""
+    s = _sec_session()
+    for url in ("https://data.sec.gov/submissions/CIK0000320193.json",
+                "https://www.sec.gov/files/company_tickers.json"):
+        r = s.get(url, timeout=60)
+        print(f"SEC check {r.status_code} {url}")
+        if r.status_code != 200:
+            print(r.text[:400])
+            raise SystemExit("SEC EDGAR refused the request. Check SEC_USER_AGENT ('Name email@domain') "
+                             "or run the pipeline from a different network.")
+    print("SEC access OK with User-Agent:", s.headers["User-Agent"])
+
+
+if __name__ == "__main__":
+    sec_preflight()
 
 
 def cik10(cik) -> str:
