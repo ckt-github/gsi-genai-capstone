@@ -45,6 +45,9 @@ jobs:
           key: sec-submissions-${{ github.run_id }}
           restore-keys: sec-submissions-
 
+      - name: Check SEC access
+        run: python src/common.py
+
       - name: 00 Sample size
         run: python src/00_sample_size.py | tee results/sample_size.txt
 
