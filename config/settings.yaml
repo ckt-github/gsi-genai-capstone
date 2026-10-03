@@ -1,0 +1,20 @@
+# Study settings
+period_start: "2018-01-01"        # one extra year so 2019 YoY growth can be computed
+period_end: "2025-12-31"
+# Indian comparison firms: config/india_firms.csv (NSE XBRL results; INR->USD via FRED DEXINUS)
+pre_genai: ["2019-01-01", "2022-09-30"]
+transition_quarter: ["2022-10-01", "2022-12-31"]   # ChatGPT released 30 Nov 2022; excluded from RQ1
+post_genai: ["2023-01-01", "2025-12-31"]
+
+sic_codes: [7370, 7371, 7373, 7374]   # 7372 (prepackaged software) excluded: product firms, not GSIs
+segment_map:
+  7370: "IT consulting & application services"
+  7371: "IT consulting & application services"
+  7373: "Systems integration"
+  7374: "Data processing & managed services"
+
+min_annual_revenue_usd: 10000000      # exclude shells / micro filers (TTM revenue < $10M)
+forms: ["10-Q", "10-K", "10-Q/A", "10-K/A"]
+max_requests_per_second: 8            # below SEC's 10 req/s limit
+winsorize: [0.01, 0.99]
+random_seed: 42

@@ -1,0 +1,18 @@
+# One regular expression per line (case-insensitive). Lines starting with # are ignored.
+# [genai] marks terms counted in both AI_INTENSITY and GENAI_MENTION.
+artificial intelligence
+\bA\.?I\.?\b(?!-)
+machine learning
+deep learning
+neural network
+natural language processing
+computer vision
+[genai] generative (?:ai|artificial intelligence)
+[genai] \bgen ?ai\b
+[genai] large language models?
+[genai] \bLLMs?\b
+[genai] foundation models?
+[genai] agentic
+[genai] \bAI agents?\b
+[genai] copilot
+[genai] chatgpt|\bGPT-?\d
