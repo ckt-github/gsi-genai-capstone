@@ -6,9 +6,8 @@
 [![Data pipeline](https://github.com/ckt-github/gsi-genai-capstone/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ckt-github/gsi-genai-capstone/actions/workflows/pipeline.yml)
 
 This repository holds the data pipeline, data dictionary and analysis code for the capstone study
-*Generative AI and the Pivot of Global System Integrators: Revenue Growth, AI Disclosure and Decline
-Risk in U.S.-Listed IT Services Firms, 2019–2025*, with a comparison group of 15 IT services firms
-listed on the National Stock Exchange of India (NSE).
+*Generative AI and the Pivot of Global System Integrators: Evidence From U.S.- and India-Listed IT Services Firms, 2019–2025*. The main sample is U.S.-listed IT services firms that file with the SEC; 15 firms listed on the
+National Stock Exchange of India (NSE) form a comparison group.
 
 All data are free and public: SEC EDGAR filings for U.S. registrants, NSE XBRL results filings for the
 Indian firms, and the Federal Reserve's INR/USD exchange rate. No Kaggle, synthetic, personal or
