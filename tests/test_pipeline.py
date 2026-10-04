@@ -71,3 +71,15 @@ def test_extension_eligibility_rule():
     assert ok == [q("2026Q1")]
     assert [r["included"] for r in report] == [True, False, False]
     assert report[1]["coverage"] == 0.8
+
+
+def test_gsi_classification_file():
+    """Each firm listed once, flag is 0/1, every firm has a reason, and the Indian GSIs are study firms."""
+    root = SRC.parent
+    cls = pd.read_csv(root / "config/gsi_classification.csv", dtype={"cik": str})
+    assert cls["cik"].is_unique
+    assert set(cls["is_gsi"]) <= {0, 1}
+    assert cls["reason"].notna().all()
+    india = pd.read_csv(root / "config/india_firms.csv")
+    listed = set("NSE:" + india["nse_symbol"])
+    assert set(cls.loc[cls.market == "India", "cik"]) <= listed
