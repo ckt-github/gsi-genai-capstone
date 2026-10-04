@@ -50,5 +50,8 @@ Newest entries at the top.
 - **India snapshot gaps.** Several Indian firms (for example Wipro, Mphasis, Persistent) have no
   quarterly results from mid-2022 to mid-2023 in the NSE snapshot, which removes some rows and
   year-over-year comparisons.
+- **Kyndryl has no operating margin.** Its filings do not use the `OperatingIncomeLoss` XBRL tag that
+  `src/02_get_financials.py` reads, so OP_MARGIN is missing and Kyndryl drops out of RQ2 and RQ3.
+  Fix: read an alternative operating-income line for firms without that tag.
 - **RQ3 sample.** The minimum of 1,068 is met overall, but the RQ3 rows with complete features are a
   few short of it; to be reported.
