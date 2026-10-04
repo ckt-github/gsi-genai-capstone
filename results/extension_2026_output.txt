@@ -1,0 +1,35 @@
+2026 extension (robustness check), built 04 Oct 2026. Main 2019-2025 results are in results/analysis_output.txt and are not affected.
+
+Which 2026 quarters are in (rule: >= 60 days old and >= 90% of 2025Q4 firms reported)
+market quarter  days_since_end  firms_reported  base_firms  coverage  included
+ India  2026Q1             187              15          15     1.000      True
+ India  2026Q2              96              15          15     1.000      True
+    US  2026Q1             187             108         111     0.973      True
+    US  2026Q2              96              99         111     0.892     False
+
+RQ1 extension: year-over-year revenue growth (%) by period
+Note: a few very fast-growing small firms pull the mean up; read the median and trimmed mean too.
+
+[US]
+                      n   mean  median  trimmed_mean_5pct
+2023                537  11.14    5.60               6.38
+2024                483  10.79    5.09               5.04
+2025                459  25.81    7.30              12.12
+2026                108  31.05    6.78              12.36
+pre-GenAI 2019-22  1838  26.32   11.50              16.95
+  2026 vs pre-GenAI:                   mean diff=+4.73 pp (Welch p=0.6335, d=0.065); median 6.78 vs 11.50 (Mann-Whitney p=0.0350)
+  2026 vs same quarters of 2025 (2025Q1): mean diff=+13.67 pp (Welch p=0.2424, d=0.159); median 6.78 vs 5.44 (Mann-Whitney p=0.4624)
+
+[India]
+                     n   mean  median  trimmed_mean_5pct
+2023                50  16.68   12.56              14.78
+2024                60   8.10    6.47               7.36
+2025                60  10.13    8.39               9.09
+2026                30  13.02   12.50              12.32
+pre-GenAI 2019-22  168  15.94   15.72              15.29
+  2026 vs pre-GenAI:                   mean diff=-2.92 pp (Welch p=0.2016, d=-0.213); median 12.50 vs 15.72 (Mann-Whitney p=0.2124)
+  2026 vs same quarters of 2025 (2025Q1, 2025Q2): mean diff=+1.65 pp (Welch p=0.5878, d=0.141); median 12.50 vs 8.04 (Mann-Whitney p=0.2458)
+
+RQ3 frozen model: trained 2019-2023 (n=784), tuned on 2024 (n=144); 2025 test n=137; 2026 rows with a known outcome n=0
+  Not enough 2026 rows with a known next-quarter outcome yet. Each 2026 quarter's outcome is the following quarter, so scores appear once two consecutive 2026 quarters are eligible.
+
