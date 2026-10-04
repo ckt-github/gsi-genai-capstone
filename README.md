@@ -49,7 +49,8 @@ gsi-genai-capstone/
 │   ├── raw/india/             # committed NSE and FX snapshots (see README there)
 │   ├── interim/               # universe, financials, AI scores (written by the pipeline)
 │   └── processed/
-│       └── panel_firm_quarter.csv
+│       ├── panel_firm_quarter.csv   # main study, 2019–2025
+│       └── panel_extension.csv      # main rows + eligible 2026 quarters
 ├── docs/
 │   ├── data_dictionary.csv
 │   └── synopsis.pdf
@@ -61,8 +62,10 @@ gsi-genai-capstone/
 │   ├── 02_get_financials.py   # XBRL company facts → quarterly revenue, operating income, SG&A
 │   ├── 02b_india_financials.py# NSE XBRL results → quarterly financials, INR→USD
 │   ├── 03_ai_intensity.py     # 10-Q/10-K text → AI mentions per 10,000 words (resumable)
-│   ├── 04_build_panel.py      # merge, calendarize, derive variables
-│   └── 05_analysis.py         # RQ1–RQ4 tests and models
+│   ├── 04_build_panel.py      # merge, calendarize, derive variables (--extension adds 2026)
+│   ├── 05_analysis.py         # RQ1–RQ4 tests and models
+│   ├── rq3_models.py          # RQ3 features, time splits and models (shared by 05 and 06)
+│   └── 06_extension_2026.py   # 2026 robustness check: RQ1 by year, frozen RQ3 model
 └── tests/test_pipeline.py
 ```
 
@@ -88,11 +91,32 @@ python src/02b_india_financials.py          # add --refresh to try the live NSE 
 python src/03_ai_intensity.py
 python src/04_build_panel.py
 python src/05_analysis.py
+python src/04_build_panel.py --extension    # optional: 2026 extension
+python src/06_extension_2026.py
 ```
 
 The analysis file is `data/processed/panel_firm_quarter.csv`; every variable is defined in
 `docs/data_dictionary.csv`. The SEC steps respect the 10 requests/second limit and take about one to
 two hours in total.
+
+## 2026 extension (robustness check)
+
+The main analysis is fixed at 2019–2025, as set out in the synopsis. As 2026 results come in, a
+separate run checks whether the findings hold on newer data, without changing the main results:
+
+- **Which quarters count.** A 2026 quarter is used only when it ended at least 60 days ago and at least
+  90% of the firms in the last main quarter (2025Q4) have reported it, checked separately for the U.S.
+  and India. Quarters are added in order, so there are no gaps. The check is written to
+  `results/extension_eligibility.csv` on every run (rule in `config/settings.yaml`).
+- **Same firms.** Only firms already in the main study are used, and winsorizing limits come from the
+  main window, so the 2019–2025 rows are identical in both panels.
+- **RQ1:** growth by year (mean, median and 5% trimmed mean) and 2026 compared with the pre-GenAI years
+  and with the same quarters of 2025.
+- **RQ3:** the models are trained on 2019–2023 and tuned on 2024 exactly as in the main study, then
+  scored on 2026 quarters they have never seen. Nothing is refitted on 2026.
+
+Results: `results/extension_2026_output.txt`. Package versions are pinned in `requirements.txt` so
+reruns reproduce the same numbers.
 
 ## Data sources
 
