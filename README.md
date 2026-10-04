@@ -44,6 +44,7 @@ gsi-genai-capstone/
 │   ├── settings.yaml          # study window, SIC codes, filters
 │   ├── ai_keywords.txt        # AI / GenAI term dictionary
 │   ├── named_gsis.csv         # U.S.-listed GSIs added by name (SIC outside range)
+│   ├── gsi_classification.csv # every $1B+ firm: GSI or not, with the reason
 │   └── india_firms.csv        # NSE comparison firms and segment
 ├── data/
 │   ├── raw/india/             # committed NSE and FX snapshots (see README there)
@@ -65,7 +66,8 @@ gsi-genai-capstone/
 │   ├── 04_build_panel.py      # merge, calendarize, derive variables (--extension adds 2026)
 │   ├── 05_analysis.py         # RQ1–RQ4 tests and models
 │   ├── rq3_models.py          # RQ3 features, time splits and models (shared by 05 and 06)
-│   └── 06_extension_2026.py   # 2026 robustness check: RQ1 by year, frozen RQ3 model
+│   ├── 06_extension_2026.py   # 2026 robustness check: RQ1 by year, frozen RQ3 model
+│   └── 07_gsi_focus.py        # the study's questions for the large commercial GSIs
 └── tests/test_pipeline.py
 ```
 
@@ -93,6 +95,7 @@ python src/04_build_panel.py
 python src/05_analysis.py
 python src/04_build_panel.py --extension    # optional: 2026 extension
 python src/06_extension_2026.py
+python src/07_gsi_focus.py                  # GSI focus
 ```
 
 The analysis file is `data/processed/panel_firm_quarter.csv`; every variable is defined in
@@ -117,6 +120,30 @@ separate run checks whether the findings hold on newer data, without changing th
 
 Results: `results/extension_2026_output.txt`. Package versions are pinned in `requirements.txt` so
 reruns reproduce the same numbers.
+
+## GSI focus
+
+The SIC-based sample answers the questions for U.S. IT services as a whole, but SIC codes are coarse:
+they also include internet platforms and software-product firms. The study's interest is the large
+commercial GSIs, whose revenue depends most on billable people and who cannot change business model as
+quickly as smaller firms. `src/07_gsi_focus.py` therefore repeats the analysis for the GSIs inside the
+existing sample, without changing the firm scope or the main results.
+
+- **Rule.** Annualised revenue of at least $1 billion (mean quarterly revenue in 2021–2022 × 4, measured
+  before the GenAI period so selection cannot depend on the outcome) and a business built on IT consulting,
+  systems integration or managed IT services for commercial clients. Every firm above $1 billion is listed
+  in `config/gsi_classification.csv` as GSI or not, with the reason; the script warns about any firm above
+  the threshold that has not been classified.
+- **GSIs.** United States: Accenture, Cognizant, Kyndryl, DXC Technology, EPAM, Rackspace, Unisys and
+  Thoughtworks. India: TCS, Infosys, HCLTech, Wipro, Tech Mahindra, LTIMindtree and Mphasis.
+  Government integrators (Leidos, SAIC, CACI, Parsons) are not counted.
+- **Reported.** Growth by period and year (mean, median, trimmed mean), RQ1 at row and firm level,
+  whether GSIs slowed more than the other firms in their market, a firm-by-firm table, AI disclosure of
+  U.S. GSIs, and how the main RQ3 model scores on GSI rows.
+- **Caution.** Eight U.S. and seven Indian GSIs are a small number of firms, so firm-level tests are
+  reported alongside row-level ones and RQ2-style regressions are not run for this group.
+
+Results: `results/gsi_focus_output.txt`.
 
 ## Data sources
 
