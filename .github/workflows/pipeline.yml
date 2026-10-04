@@ -24,8 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 340
     env:
-      # SEC fair-access rule: identify the requester. Override with a repository variable if needed.
-      SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT || 'Chandan Tiwari ckt-github@users.noreply.github.com' }}
+      # SEC fair-access rule: identify the requester. Kept in a repository secret so the
+      # contact is masked (***) in public run logs.
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || 'Chandan Tiwari ckt-github@users.noreply.github.com' }}
       PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4
