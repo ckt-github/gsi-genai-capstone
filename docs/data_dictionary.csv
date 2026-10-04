@@ -18,3 +18,4 @@ OP_MARGIN,Control (RQ2); feature (RQ3),Continuous,Percent,U.S.: OperatingIncomeL
 SGA_RATIO,Control (RQ2); feature (RQ3),Continuous,Percent,SellingGeneralAndAdministrativeExpense / revenue x 100 (U.S. only; Ind-AS statements do not report SG&A),Cost structure and sales intensity
 AI_INTENSITY,IV (RQ2); feature (RQ3),Continuous,"Mentions per 10,000 words","AI keyword matches in the 10-Q/10-K text / total words x 10,000 (U.S. only)",Strength of disclosed AI positioning
 GENAI_MENTION,Feature (RQ3),Binary (0/1),,1 if any generative-AI-specific term appears in the 10-Q/10-K (U.S. only),Generative-AI-specific positioning
+SAMPLE,Grouping (extension only),Nominal,,"""main"" for 2019-2025 rows, ""extension"" for eligible 2026 rows; only in data/processed/panel_extension.csv",Keeps the 2026 robustness check separate from the main study
