@@ -18,3 +18,11 @@ forms: ["10-Q", "10-K", "10-Q/A", "10-K/A"]
 max_requests_per_second: 8            # below SEC's 10 req/s limit
 winsorize: [0.01, 0.99]
 random_seed: 42
+
+# 2026 extension (robustness check, reported separately; the main analysis above is unchanged).
+# A quarter enters only when it is at least `min_days_after_quarter` days old AND at least
+# `min_coverage` of the firms present in the last main-window quarter (2025Q4) have reported it.
+extension:
+  period_end: "2026-12-31"       # upper bound; eligibility decides what is actually used
+  min_days_after_quarter: 60     # 10-Q due in 40-45 days (U.S.), quarterly results in 45 days (NSE)
+  min_coverage: 0.90
