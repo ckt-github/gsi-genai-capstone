@@ -75,6 +75,13 @@ jobs:
       - name: 05 Analysis
         run: python src/05_analysis.py
 
+      # 2026 extension: a separate robustness check that never changes the 2019-2025 results above
+      - name: 04x Build 2026 extension panel
+        run: python src/04_build_panel.py --extension
+
+      - name: 06 2026 extension
+        run: python src/06_extension_2026.py
+
       - name: Commit outputs
         if: always()   # keep partial progress (e.g. AI scores) even if a later step fails
         run: |
