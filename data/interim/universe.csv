@@ -40,7 +40,7 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 945384,,CICERO INC,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
 1002225,,ADVENT SOFTWARE INC /DE/,7371,IT consulting & application services,Large accelerated filer,False
 1002638,OTEX,OPEN TEXT CORP,7373,Systems integration,Large accelerated filer,False
-1005757,CSGS,CSG SYSTEMS INTERNATIONAL INC,7374,Data processing & managed services,Large accelerated filer,False
+1005757,,CSG SYSTEMS INTERNATIONAL INC,7374,Data processing & managed services,Large accelerated filer,False
 1006892,,JDA SOFTWARE GROUP INC,7371,IT consulting & application services,Large Accelerated,False
 1007456,,ELECTRONIC DATA SYSTEMS CORP /DE/,7370,IT consulting & application services,,False
 1008586,,STREAMLINE HEALTH SOLUTIONS INC.,7373,Systems integration,Non-accelerated filer<br>Smaller reporting company,False
@@ -124,14 +124,14 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1381871,,"bowmo, Inc.",7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
 1384905,RNG,"RingCentral, Inc.",7374,Data processing & managed services,Large accelerated filer,False
 1385292,,Monotype Imaging Holdings Inc.,7371,IT consulting & application services,Large accelerated filer,False
-1386049,BYOC,"Beyond Commerce, Inc.",7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
+1386049,,"Beyond Commerce, Inc.",7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1388295,ONEI,OneMeta Inc.,7374,Data processing & managed services,<br>Emerging growth company,False
 1389002,,MARIN SOFTWARE INC,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1392972,,"PROS Holdings, Inc.",7371,IT consulting & application services,Large accelerated filer,False
 1393548,,ClickStream Corp,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1402453,,Her Imports,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1408278,,"Synacor, Inc.",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
-1413909,DSGT,DSG Global Inc.,7373,Systems integration,Non-accelerated filer<br>Smaller reporting company,False
+1413909,,DSG Global Inc.,7373,Systems integration,Non-accelerated filer<br>Smaller reporting company,False
 1415605,,Qornerstone Inc.,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1418091,,"TWITTER, INC.",7370,IT consulting & application services,Large accelerated filer,False
 1419582,,BLUE SPHERE CORP.,7370,IT consulting & application services,Smaller reporting company,False
@@ -155,11 +155,11 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1487101,,KEYW HOLDING CORP,7373,Systems integration,Accelerated filer,False
 1487931,,FISION Corp,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1494259,CARG,"CarGurus, Inc.",7374,Data processing & managed services,Large accelerated filer,False
-1497230,FYNN,Fyntechnical Innovations Inc,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
+1497230,,Fyntechnical Innovations Inc,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1505611,,"DecisionPoint Systems, Inc.",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
 1506293,PINS,"PINTEREST, INC.",7370,IT consulting & application services,Large accelerated filer,False
 1510247,,"LGBTQ Loyalty Holdings, Inc.",7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
-1514056,TESI,Titan Environmental Solutions Inc.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
+1514056,,Titan Environmental Solutions Inc.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
 1516513,DOCS,"Doximity, Inc.",7371,IT consulting & application services,Large accelerated filer,False
 1516805,,"Moxian, Inc.",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
 1517389,JFIL,"Jubilant Flame International, Ltd",7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
