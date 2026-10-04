@@ -33,6 +33,9 @@ measured in rupees (so currency moves do not distort it); size is converted to U
 quarterly average. Indian firms do not file 10-Q/10-K reports, so they are not part of the AI-disclosure
 questions (RQ2, RQ3).
 
+The synopsis in `docs/synopsis.pdf` is the submitted version. Everything changed or added since then is
+logged in [`docs/changes_since_synopsis.md`](docs/changes_since_synopsis.md).
+
 ## Repository structure
 
 ```
@@ -53,6 +56,7 @@ gsi-genai-capstone/
 │       ├── panel_firm_quarter.csv   # main study, 2019–2025
 │       └── panel_extension.csv      # main rows + eligible 2026 quarters
 ├── docs/
+│   ├── changes_since_synopsis.md   # log of everything added after the synopsis
 │   ├── data_dictionary.csv
 │   └── synopsis.pdf
 ├── results/                   # analysis output written by the pipeline
