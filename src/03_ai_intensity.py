@@ -5,6 +5,8 @@ GENAI_MENTION = 1 if any generative-AI-specific term appears, else 0
 
 Filing HTML is scored in memory and not stored, so the job needs little disk space. Scores are
 appended to a progress file after every firm, so an interrupted run resumes where it stopped.
+Filings are scored up to the 2026-extension bound in config/settings.yaml; the main panel still uses
+only 2019-2025 because src/04_build_panel.py applies the study window.
 Output: data/interim/ai_scores.csv (cik, accession, form, report_date, words, ai_hits, ai_intensity, genai_mention)
 """
 import re
@@ -37,6 +39,7 @@ def score(text):
     return words, hits, (hits / words * 10_000 if words else 0.0), gen
 
 
+LAST = max(SETTINGS["period_end"], SETTINGS.get("extension", {}).get("period_end", SETTINGS["period_end"]))
 OUT = INTERIM / "ai_scores.csv"
 done = pd.read_csv(OUT, dtype={"accession": str}) if OUT.exists() else pd.DataFrame(columns=["accession"])
 done_acc = set(done["accession"])
@@ -56,7 +59,7 @@ for cik in tqdm(universe["cik"]):
     if recent.empty:
         continue
     f = recent[recent["form"].isin(SETTINGS["forms"])
-               & recent["reportDate"].between(SETTINGS["period_start"], SETTINGS["period_end"])
+               & recent["reportDate"].between(SETTINGS["period_start"], LAST)
                & ~recent["accessionNumber"].isin(done_acc)]
     rows = []
     for acc, doc, form, rdate in f[["accessionNumber", "primaryDocument", "form", "reportDate"]].itertuples(index=False):

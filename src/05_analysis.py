@@ -14,14 +14,8 @@ import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 from scipy import stats
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import (accuracy_score, brier_score_loss, f1_score, precision_score,
-                             recall_score, roc_auc_score)
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from xgboost import XGBClassifier
 
+import rq3_models as rq3m
 from common import PROCESSED, RESULTS, SETTINGS
 
 SEED = SETTINGS["random_seed"]
@@ -62,31 +56,12 @@ def rq2():
 
 
 def rq3():
-    feats = ["AI_INTENSITY", "GENAI_MENTION", "LOG_REVENUE", "SGA_RATIO", "OP_MARGIN",
-             "REV_GROWTH_YOY", "REV_GROWTH_LAG1", "POST_GENAI"]
-    d3 = us.dropna(subset=feats + ["DECLINE_NEXT_Q", "SEGMENT"]).copy()
-    d3 = pd.concat([d3, pd.get_dummies(d3["SEGMENT"], prefix="SEG", drop_first=True, dtype=int)], axis=1)
-    X = feats + [c for c in d3.columns if c.startswith("SEG_")]
-    train = d3[d3.FISCAL_QTR < "2024Q1"]
-    valid = d3[d3.FISCAL_QTR.between("2024Q1", "2024Q4")]
-    test = d3[d3.FISCAL_QTR >= "2025Q1"]
+    d3, X = rq3m.design(us)
+    train, valid, test = rq3m.split(d3)
     print(f"RQ3  train={len(train)} valid={len(valid)} test={len(test)}  decline rate={d3.DECLINE_NEXT_Q.mean():.3f}")
-    models = {
-        "logit": make_pipeline(StandardScaler(), LogisticRegression(max_iter=2000, class_weight="balanced")),
-        "random_forest": RandomForestClassifier(n_estimators=500, min_samples_leaf=5, class_weight="balanced",
-                                                random_state=SEED),
-        "xgboost": XGBClassifier(n_estimators=400, max_depth=4, learning_rate=0.05, subsample=0.8,
-                                 colsample_bytree=0.8, eval_metric="auc", random_state=SEED),
-    }
-    for name, model in models.items():
-        model.fit(train[X], train["DECLINE_NEXT_Q"].astype(int))
-        pv = model.predict_proba(valid[X])[:, 1]
-        thr = max(np.linspace(0.1, 0.9, 81), key=lambda c: f1_score(valid["DECLINE_NEXT_Q"].astype(int), pv >= c))
-        pt = model.predict_proba(test[X])[:, 1]
-        y, yhat = test["DECLINE_NEXT_Q"].astype(int), (pt >= thr).astype(int)
-        print(f"RQ3  {name:13s} AUC={roc_auc_score(y, pt):.3f} acc={accuracy_score(y, yhat):.3f} "
-              f"prec={precision_score(y, yhat, zero_division=0):.3f} rec={recall_score(y, yhat):.3f} "
-              f"F1={f1_score(y, yhat):.3f} Brier={brier_score_loss(y, pt):.3f} thr={thr:.2f}")
+    for name, model in rq3m.make_models(SEED).items():
+        thr = rq3m.fit_and_tune(model, train, valid, X)
+        print(f"RQ3  {name:13s} {rq3m.scores(model, test, X, thr)}")
 
 
 def rq4():

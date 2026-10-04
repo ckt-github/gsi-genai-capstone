@@ -4,6 +4,7 @@ import os
 import time
 from pathlib import Path
 
+import pandas as pd
 import requests
 import yaml
 
@@ -85,3 +86,30 @@ if __name__ == "__main__":
 
 def cik10(cik) -> str:
     return str(int(cik)).zfill(10)
+
+
+def eligible_quarters(firm_qtrs, base_qtr, candidates, today, min_days=60, min_coverage=0.90):
+    """Extension rule: which quarters after the main window can be used yet.
+
+    firm_qtrs  : DataFrame with columns cik, cal_qtr (pandas Period) for one market
+    base_qtr   : last main-window quarter; its firms are the coverage denominator
+    candidates : quarters after base_qtr, in order
+    A quarter is eligible when it ended at least `min_days` ago and at least `min_coverage` of the
+    base-quarter firms have reported it. Quarters are added in order and the first failure stops
+    the sequence, so the extension never has gaps.
+    Returns (list of eligible quarters, report rows for the output file).
+    """
+    base = set(firm_qtrs.loc[firm_qtrs["cal_qtr"] == base_qtr, "cik"])
+    ok, report, stop = [], [], False
+    for q in candidates:
+        age = (pd.Timestamp(today) - q.end_time.normalize()).days
+        have = set(firm_qtrs.loc[firm_qtrs["cal_qtr"] == q, "cik"]) & base
+        cov = len(have) / len(base) if base else 0.0
+        passed = (not stop) and age >= min_days and cov >= min_coverage
+        report.append({"quarter": str(q), "days_since_end": age, "firms_reported": len(have),
+                       "base_firms": len(base), "coverage": round(cov, 3), "included": passed})
+        if passed:
+            ok.append(q)
+        else:
+            stop = True
+    return ok, report
