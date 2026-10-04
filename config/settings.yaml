@@ -26,3 +26,9 @@ extension:
   period_end: "2026-12-31"       # upper bound; eligibility decides what is actually used
   min_days_after_quarter: 60     # 10-Q due in 40-45 days (U.S.), quarterly results in 45 days (NSE)
   min_coverage: 0.90
+
+# GSI focus (src/07_gsi_focus.py): large commercial GSIs inside the existing sample; scope unchanged.
+# Firm-by-firm classification with reasons: config/gsi_classification.csv
+gsi_focus:
+  min_annual_revenue_usd_bn: 1.0
+  revenue_window: ["2021Q1", "2022Q4"]   # measured before the GenAI period

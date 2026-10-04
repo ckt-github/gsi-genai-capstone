@@ -1,0 +1,59 @@
+market,cik,ticker,name,is_gsi,business,reason
+US,1467373,ACN,Accenture plc,1,"IT consulting, systems integration, managed services",Commercial GSI
+US,1058290,CTSH,Cognizant Technology Solutions,1,"IT consulting, application services, managed services",Commercial GSI
+US,1867072,KD,Kyndryl Holdings,1,Managed infrastructure services,Commercial GSI
+US,1688568,DXC,DXC Technology,1,"IT services, systems integration, managed services",Commercial GSI
+US,1352010,EPAM,EPAM Systems,1,Software engineering and digital services,Commercial GSI
+US,1810019,RXT,Rackspace Technology,1,Managed cloud services,Commercial GSI (managed cloud)
+US,746838,UIS,Unisys,1,IT services and systems integration,Commercial GSI
+US,1866550,TWKS,Thoughtworks Holding,1,Technology consulting,Commercial GSI (taken private in 2024)
+US,1652044,GOOGL,Alphabet,0,Internet platform and advertising,Not an IT services firm
+US,1326801,META,Meta Platforms,0,Internet platform and advertising,Not an IT services firm
+US,1418091,TWTR,Twitter,0,Internet platform and advertising,Not an IT services firm
+US,1564408,SNAP,Snap,0,Internet platform and advertising,Not an IT services firm
+US,1506293,PINS,Pinterest,0,Internet platform and advertising,Not an IT services firm
+US,891103,MTCH,Match Group,0,Online dating platforms,Not an IT services firm
+US,1800227,PPLI,People Inc,0,Digital media,Not an IT services firm
+US,1526520,TRIP,TripAdvisor,0,Online travel platform,Not an IT services firm
+US,1606745,,Liberty TripAdvisor Holdings,0,Holding company of TripAdvisor,Not an IT services firm
+US,1494259,CARG,CarGurus,0,Online automotive marketplace,Not an IT services firm
+US,1671933,TTD,Trade Desk,0,Advertising technology,Not an IT services firm
+US,1751008,APP,AppLovin,0,Advertising technology and mobile games,Not an IT services firm
+US,1439404,ZNGA,Zynga,0,Games,Not an IT services firm
+US,1828016,PLTK,Playtika Holding,0,Games,Not an IT services firm
+US,750004,LNW,Light & Wonder,0,Gaming technology,Not an IT services firm
+US,8670,ADP,Automatic Data Processing,0,Payroll and HR outsourcing,"Business process outsourcing, not a GSI"
+US,1336920,LDOS,Leidos Holdings,0,Government IT and engineering,Government integrator (commercial GSIs only)
+US,1571123,SAIC,Science Applications International,0,Government IT,Government integrator (commercial GSIs only)
+US,16058,CACI,CACI International,0,Government IT,Government integrator (commercial GSIs only)
+US,275880,PSN,Parsons,0,Government technology and engineering,Government integrator (commercial GSIs only)
+US,804753,CERN,Cerner,0,Healthcare IT software,Software product firm
+US,1756497,CHNG,Change Healthcare,0,Healthcare payments and data network,Not a GSI
+US,1327811,WDAY,Workday,0,Enterprise software (SaaS),Software product firm
+US,1585521,ZM,Zoom Communications,0,Communications software (SaaS),Software product firm
+US,1002638,OTEX,Open Text,0,Enterprise software,Software product firm
+US,1650164,TOST,Toast,0,Restaurant software and payments,Software product firm
+US,1384905,RNG,RingCentral,0,Communications software (SaaS),Software product firm
+US,1463172,ZEN,Zendesk,0,Customer-service software (SaaS),Software product firm
+US,1013857,PEGA,Pegasystems,0,Enterprise software,Software product firm
+US,1713683,ZS,Zscaler,0,Security software (SaaS),Software product firm
+US,1212458,PFPT,Proofpoint,0,Security software (SaaS),Software product firm
+US,779152,JKHY,Jack Henry & Associates,0,Banking software and processing,Software product firm
+US,1005757,CSGS,CSG Systems International,0,Billing and customer-engagement software,Software product firm
+US,814549,EBIX,Ebix,0,Insurance and finance software,Software product firm
+US,1597033,SABR,Sabre,0,Travel technology platform,Not a GSI
+US,1598014,INFO,IHS Markit,0,Data and analytics,"Information provider, not a GSI"
+US,1442145,VRSK,Verisk Analytics,0,Data and analytics,"Information provider, not a GSI"
+US,1764046,CLVT,Clarivate,0,Data and analytics,"Information provider, not a GSI"
+US,1013237,FDS,FactSet Research Systems,0,Financial data,"Information provider, not a GSI"
+US,36047,CLGX,CoreLogic,0,Property data and analytics,"Information provider, not a GSI"
+US,1609711,GDDY,GoDaddy,0,Domains and web hosting,Not a GSI
+US,1014473,VRSN,VeriSign,0,Domain registry,Not a GSI
+US,1596961,RDNW,RideNow Group,0,Vehicle retail (formerly RumbleOn),Not an IT services firm
+India,NSE:TCS,TCS,Tata Consultancy Services,1,"IT services, consulting, systems integration",Commercial GSI
+India,NSE:INFY,INFY,Infosys,1,"IT services, consulting, systems integration",Commercial GSI
+India,NSE:HCLTECH,HCLTECH,HCL Technologies,1,"IT services, engineering, software",Commercial GSI
+India,NSE:WIPRO,WIPRO,Wipro,1,"IT services, consulting, systems integration",Commercial GSI
+India,NSE:TECHM,TECHM,Tech Mahindra,1,"IT services, consulting, systems integration",Commercial GSI
+India,NSE:LTM,LTM,LTIMindtree,1,IT services and consulting,Commercial GSI
+India,NSE:MPHASIS,MPHASIS,Mphasis,1,IT services and application services,Commercial GSI
