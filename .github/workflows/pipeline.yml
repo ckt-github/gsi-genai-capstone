@@ -82,6 +82,9 @@ jobs:
       - name: 06 2026 extension
         run: python src/06_extension_2026.py
 
+      - name: 07 GSI focus
+        run: python src/07_gsi_focus.py
+
       - name: Commit outputs
         if: always()   # keep partial progress (e.g. AI scores) even if a later step fails
         run: |
