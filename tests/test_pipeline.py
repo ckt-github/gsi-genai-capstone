@@ -55,3 +55,19 @@ def test_xbrl_parser_reads_quarter_context():
     </xbrl>"""
     row = ns["parse_xbrl"](xml)
     assert row["RevenueFromOperations"] == "100"
+
+
+def test_extension_eligibility_rule():
+    """2026Q1: old enough, 9 of 10 firms reported (90%) -> in. 2026Q2: 8 of 10 -> out.
+    2026Q3: everyone reported but too recent, and the sequence already stopped -> out."""
+    from common import eligible_quarters
+    q = lambda s: pd.Period(s, freq="Q")
+    rows = [(c, q("2025Q4")) for c in range(10)]
+    rows += [(c, q("2026Q1")) for c in range(9)] + [(c, q("2026Q2")) for c in range(8)]
+    rows += [(c, q("2026Q3")) for c in range(10)]
+    firm_qtrs = pd.DataFrame(rows, columns=["cik", "cal_qtr"])
+    ok, report = eligible_quarters(firm_qtrs, q("2025Q4"), [q("2026Q1"), q("2026Q2"), q("2026Q3")],
+                                   "2026-10-04", min_days=60, min_coverage=0.90)
+    assert ok == [q("2026Q1")]
+    assert [r["included"] for r in report] == [True, False, False]
+    assert report[1]["coverage"] == 0.8
