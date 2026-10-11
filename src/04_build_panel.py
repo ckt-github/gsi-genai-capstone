@@ -52,6 +52,11 @@ consecutive = (fin["qn"] - by("qn").shift(4)) == 4          # guard against gaps
 fin["base_lag4"] = by("growth_base").shift(4).where(consecutive)
 fin["rev_ttm"] = by("revenue").transform(lambda s: s.rolling(4).sum())
 fin["REV_GROWTH_YOY"] = (fin["growth_base"] - fin["base_lag4"]) / fin["base_lag4"].abs() * 100
+# growth is left blank when the same quarter a year earlier had revenue below US$1 million (or zero/negative):
+# a tiny base turns small changes into growth of several hundred percent that says nothing about the business
+rev_lag4_usd = by("revenue").shift(4).where(consecutive)
+fin.loc[rev_lag4_usd.notna() & (rev_lag4_usd < SETTINGS.get("min_prior_revenue_usd", 1_000_000)),
+        "REV_GROWTH_YOY"] = np.nan
 fin["REV_GROWTH_LAG1"] = by("REV_GROWTH_YOY").shift(1).where((fin["qn"] - by("qn").shift(1)) == 1)
 fin["DECLINE_Q"] = (fin["REV_GROWTH_YOY"] < 0).astype("Int64").mask(fin["REV_GROWTH_YOY"].isna())
 fin["DECLINE_NEXT_Q"] = by("DECLINE_Q").shift(-1).where((by("qn").shift(-1) - fin["qn"]) == 1)
@@ -65,9 +70,17 @@ if ai_path.exists():
     ai["cik"] = ai["cik"].astype(str)
     ai["cal_qtr"] = (ai["report_date"] - pd.Timedelta(days=45)).dt.to_period("Q")
     ai = ai.sort_values("form").drop_duplicates(["cik", "cal_qtr"], keep="first")  # 10-K before 10-K/A
-    panel = fin.merge(ai[["cik", "cal_qtr", "ai_intensity", "genai_mention"]], on=["cik", "cal_qtr"], how="left")
+    panel = fin.merge(ai[["cik", "cal_qtr", "form", "ai_intensity", "genai_mention"]], on=["cik", "cal_qtr"],
+                      how="left")
 else:
-    panel = fin.assign(ai_intensity=np.nan, genai_mention=np.nan)
+    panel = fin.assign(form=np.nan, ai_intensity=np.nan, genai_mention=np.nan)
+# 1 when the quarter's AI score comes from an annual report (10-K or 10-K/A), 0 for a 10-Q; blank if no filing
+panel["IS_10K"] = panel["form"].astype("string").str.startswith("10-K").astype("Int64")
+# four-quarter average of the AI score (this quarter and the three before it, consecutive quarters only);
+# smooths the jump in the 10-K quarter and uses no information from later quarters
+panel = panel.sort_values(["cik", "qn"])
+roll = panel.groupby("cik")["ai_intensity"].transform(lambda s: s.rolling(4, min_periods=4).mean())
+panel["AI_INTENSITY_4Q"] = roll.where((panel["qn"] - panel.groupby("cik")["qn"].shift(3)) == 3)
 panel = panel.rename(columns={"ai_intensity": "AI_INTENSITY", "genai_mention": "GENAI_MENTION",
                               "segment": "SEGMENT", "revenue": "REVENUE_USD"})
 
@@ -104,14 +117,14 @@ if EXT:  # keep only the 2026 quarters that pass the eligibility rule, market by
 # winsorize ratio variables at 1st / 99th percentiles within each market (limits from the main window)
 lo, hi = SETTINGS["winsorize"]
 main_rows = panel[panel["SAMPLE"] == "main"]
-for c in ["REV_GROWTH_YOY", "REV_GROWTH_LAG1", "OP_MARGIN", "SGA_RATIO", "AI_INTENSITY"]:
+for c in ["REV_GROWTH_YOY", "REV_GROWTH_LAG1", "OP_MARGIN", "SGA_RATIO", "AI_INTENSITY", "AI_INTENSITY_4Q"]:
     limits = main_rows.groupby("MARKET")[c].quantile([lo, hi]).unstack()
     panel[c] = panel[c].clip(panel["MARKET"].map(limits[lo]), panel["MARKET"].map(limits[hi]))
 
 panel["FISCAL_QTR"] = panel["cal_qtr"].astype(str)
 cols = ["cik", "ticker", "name", "MARKET", "sic", "SEGMENT", "FISCAL_QTR", "PERIOD", "POST_GENAI",
         "REVENUE_USD", "LOG_REVENUE", "REV_GROWTH_YOY", "REV_GROWTH_LAG1", "DECLINE_Q", "DECLINE_NEXT_Q",
-        "OP_MARGIN", "SGA_RATIO", "AI_INTENSITY", "GENAI_MENTION"]
+        "OP_MARGIN", "SGA_RATIO", "AI_INTENSITY", "AI_INTENSITY_4Q", "IS_10K", "GENAI_MENTION"]
 if EXT:
     panel[cols + ["SAMPLE"]].to_csv(PROCESSED / "panel_extension.csv", index=False)
     print(panel.groupby(["MARKET", "SAMPLE", "PERIOD"]).size())
