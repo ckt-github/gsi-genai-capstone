@@ -83,3 +83,17 @@ def test_gsi_classification_file():
     india = pd.read_csv(root / "config/india_firms.csv")
     listed = set("NSE:" + india["nse_symbol"])
     assert set(cls.loc[cls.market == "India", "cik"]) <= listed
+
+
+def test_data_dictionary_matches_panel():
+    """Every column of the analysis file is defined in docs/data_dictionary.csv, and nothing extra is listed."""
+    import pandas as pd
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    panel = root / "data" / "processed" / "panel_firm_quarter.csv"
+    if not panel.exists():
+        import pytest
+        pytest.skip("panel not built yet")
+    cols = set(pd.read_csv(panel, nrows=1).columns)
+    listed = set(pd.read_csv(root / "docs" / "data_dictionary.csv")["variable"]) - {"SAMPLE"}
+    assert cols == listed, f"missing from dictionary: {cols - listed}; not in panel: {listed - cols}"
