@@ -1,0 +1,80 @@
+DESIGN CHECK (alpha = .05 two-sided, power = .80). ICCs use pre-GenAI quarters only.
+
+1. Firms and firm-quarters
+   U.S. pre-GenAI 2019Q1-2022Q3     firms= 180  firm-quarters= 1817  mean quarters per firm= 10.1
+   U.S. post-GenAI 2023Q1-2025Q4    firms= 157  firm-quarters= 1466  mean quarters per firm=  9.3
+   India pre-GenAI                  firms=  15  firm-quarters=  168  mean quarters per firm= 11.2
+   India post-GenAI                 firms=  15  firm-quarters=  170  mean quarters per firm= 11.3
+   U.S. firms observed in both periods: 136; India: 15
+
+2. RQ1 (growth, pre vs post)
+   ICC of REV_GROWTH_YOY within firms (pre-GenAI): 0.302
+   pre: DEFF = 1 + (10.1 - 1) x 0.302 = 3.75; effective n = 1817/3.75 = 485; required firm-quarters = 394 x 3.75 = 1476; available = 1817
+   post: DEFF = 1 + (9.3 - 1) x 0.302 = 3.52; effective n = 1466/3.52 = 417; required firm-quarters = 394 x 3.52 = 1386; available = 1466
+   Firm-level paired test on 136 firms: smallest detectable dz = 0.242; power at dz = 0.20: 0.64; firms needed for dz = 0.20: 199
+   pre-GenAI SD of quarterly growth (U.S.) = 46.7 pp, so d = 0.20 is about 9.3 pp; median growth pre = 11.1%
+   SD of firm-level change in mean growth (post minus pre) = 50.5 pp, so dz = 0.20 is about 10.1 pp and the smallest detectable dz is about 12.2 pp
+   India firm-level paired test on 15 firms: smallest detectable dz = 0.78
+
+   pilot check on pre-GenAI quarters (n = 1700): partial f2 of AI_INTENSITY in the RQ2 model = 0.0006
+
+3a. RQ2 rows lost at each step (post-GenAI U.S.)
+   all post-GenAI U.S. firm-quarters: 1466 rows, 157 firms
+   after requiring REV_GROWTH_YOY  : 1466 rows, 157 firms
+   after requiring REV_GROWTH_LAG1 : 1442 rows, 154 firms
+   after requiring AI_INTENSITY    : 1435 rows, 154 firms
+   after requiring OP_MARGIN       : 1407 rows, 152 firms
+   after requiring LOG_REVENUE     : 1400 rows, 151 firms
+   after requiring SEGMENT         : 1400 rows, 151 firms
+   (if SGA_RATIO were also required: 451 rows, 52 firms)
+3. RQ2 (AI_INTENSITY coefficient, post-GenAI U.S. quarters with complete data)
+   eligible firm-quarters=1400, firms=151, mean quarters per firm=9.3
+   noncentral F: N=395 gives power 0.801 (lambda = f2 x N = 7.90, df1 = 1, df2 = 387)
+   design effect with ICC 0.302: 3.50; effective N = 400; power at effective N for f2 = 0.02: 0.81; smallest f2 detectable with 80% power: 0.020
+
+4. RQ3 (next-quarter decline classifier)
+   train 2019-2023  firm-quarters=2274 firms=184 decline events=667 non-events=1607 prevalence=0.293
+   validation 2024  firm-quarters= 443 firms=120 decline events=150 non-events=293 prevalence=0.339
+   test 2025        firm-quarters= 421 firms=114 decline events=113 non-events=308 prevalence=0.268
+   events per candidate predictor in training: 667/10 = 66.7
+   test set: if AUC = 0.70, Hanley-McNeil SE = 0.030, 95% CI = 0.64 to 0.76 (half-width 0.060)
+   test set: if AUC = 0.80, Hanley-McNeil SE = 0.027, 95% CI = 0.75 to 0.85 (half-width 0.053)
+   rows needed for a +/-0.10 AUC interval at AUC 0.70 and planning prevalence 0.30: 139 (about 42 events)
+   recall 0.70 on 113 test declines: 95% Wilson CI half-width 0.083
+   recall 0.80 on 113 test declines: 95% Wilson CI half-width 0.073
+   precision 0.50 at recall 0.70 means about 158 flagged quarters; Wilson half-width 0.077
+   test firms contribute 3.7 quarters each on average, so intervals are also bootstrapped by firm (resampling whole firms).
+
+5. RQ4 (segment x decline, post-GenAI U.S. quarters)
+   firm-quarters=1466, firms=157, mean quarters per firm=9.3; ICC of DECLINE_Q (pre-GenAI)=0.310
+   decline share post-GenAI = 0.337; with three equal-sized segments, w = 0.10 is a gap of 11.6 points between the highest and lowest segment and w = 0.154 a gap of 17.8
+   DEFF = 3.58; effective N = 409; required = 964 x 3.58 = 3454
+   firms per segment: Data processing & managed services: 50; IT consulting & application services: 71; Systems integration: 36
+   power of the 3 x 2 test at effective N for w = 0.10: 0.42; smallest w detectable with 80% power: 0.154
+
+6. Missing values in the main panel (U.S.)
+   REV_GROWTH_YOY   missing   0.0%
+   REV_GROWTH_LAG1  missing   2.9%
+   SGA_RATIO        missing  65.6%
+   OP_MARGIN        missing   2.0%
+   AI_INTENSITY     missing   0.4%
+   AI_INTENSITY_4Q  missing   2.6%
+   IS_10K           missing   0.4%
+   GENAI_MENTION    missing   0.4%
+   DECLINE_NEXT_Q   missing   2.8%
+   firm-quarters in the study window whose year-earlier revenue is below US$1 million: 33 (zero or negative: 18; firms: 18); growth left blank
+   U.S. firm-quarters with zero or negative revenue (LOG_REVENUE blank): 12
+   AI score source in the U.S. panel: 10-K quarters 813, 10-Q quarters 2591; mean AI_INTENSITY 10-K 3.48 vs 10-Q 1.56
+   growth at the winsorizing caps (U.S.): low -69.0%, high 249.5%
+
+7. Minimum sample size after the design effect, against what the panel provides
+   analysis                            base N  DEFF required available firms  met
+   RQ1 pre-GenAI period                   394  3.75     1476      1817   180  yes
+   RQ1 post-GenAI period                  394  3.52     1386      1466   157  yes
+   RQ2 post-GenAI complete cases          395  3.50     1382      1400   151  yes
+   RQ3 training 2019-2023 (EPV 10)        334  1.00      334      2274   184  yes
+   RQ3 test 2025 (AUC +/-0.10)            139  1.83      255       421   114  yes
+   RQ4 post-GenAI                         964  3.58     3454      1466   157  NO
+   RQ3 planning prevalence = 0.30; test-set DEFF uses ICC 0.310 and 3.7 quarters per firm; required test events = 77
+   RQ3 recall 0.70 +/-0.10 would need 78 declines before the design effect
+   RQ4 pre-GenAI observed Cohen's w (segment x decline) = 0.061

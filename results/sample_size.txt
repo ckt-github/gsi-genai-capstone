@@ -1,6 +1,7 @@
 RQ1: minimum N = 788
 RQ2: minimum N = 395
-RQ3: minimum N = 1,068
+RQ3: minimum N = 473
 RQ4: minimum N = 964
-RQ1 per group = 394; RQ3 events-per-variable cross-check = 334
-FINAL N = max = 1,068 firm-quarters
+RQ1 per group = 394
+RQ3 test set = 139 (about 42 declines; Hanley-McNeil SE = 0.0508); training = 334 (100 declines)
+FINAL N = max = 964 firm-quarters (before the design effect; see 00b_design_check.py)

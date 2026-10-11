@@ -1,50 +1,65 @@
-Panel: 3,800 firm-quarters (3,452 US, 348 India); 219 firms
+Panel: 3,764 firm-quarters (3,416 US, 348 India); 216 firms
 
-RQ1 [US] n_pre=1838 n_post=1479 mean_pre=26.32 mean_post=15.58 diff=-10.74 pp  Welch t=-4.58 p=0.0000 d=-0.158
+RQ1 [US] primary: growth ~ POST_GENAI, firm-clustered SEs: N=3283 firms=201 b=-9.99 pp SE=2.86 95% CI -15.59 to -4.38 p=0.0005
+RQ1 [US] firm-level paired: firms=136 mean change=-22.47 pp median change=-13.03 pp t=-5.18 p=0.0000 dz=-0.445  Wilcoxon p=0.0000
+RQ1 [India] firm-level paired: firms=15 mean change=-5.41 pp median change=-4.10 pp t=-2.32 p=0.0358 dz=-0.600  Wilcoxon p=0.0479
+RQ1 [US descriptive] n_pre=1817 n_post=1466 mean_pre=20.34 mean_post=10.35 diff=-9.99 pp  Welch t=-6.85 p=0.0000 d=-0.235
      Mann-Whitney p = 0.0000
-RQ1 [India] n_pre=168 n_post=170 mean_pre=15.94 mean_post=11.34 diff=-4.60 pp  Welch t=-3.00 p=0.0029 d=-0.327
+RQ1 [India descriptive] n_pre=168 n_post=170 mean_pre=15.94 mean_post=11.34 diff=-4.60 pp  Welch t=-3.00 p=0.0029 d=-0.327
      Mann-Whitney p = 0.0000
 RQ1 robustness: growth ~ POST x MARKET (firm-clustered SEs)
 ==================================================================================================================
                                                      coef    std err          z      P>|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------------------------------------
-Intercept                                         26.3193      2.917      9.022      0.000      20.602      32.037
-C(MARKET, Treatment('US'))[T.India]              -10.3766      3.514     -2.953      0.003     -17.263      -3.490
-POST_GENAI                                       -10.7408      3.820     -2.811      0.005     -18.229      -3.253
-POST_GENAI:C(MARKET, Treatment('US'))[T.India]     6.1391      4.221      1.454      0.146      -2.135      14.413
+Intercept                                         20.3376      2.067      9.840      0.000      16.287      24.388
+C(MARKET, Treatment('US'))[T.India]               -4.3949      2.847     -1.543      0.123      -9.976       1.186
+POST_GENAI                                        -9.9870      2.859     -3.494      0.000     -15.590      -4.384
+POST_GENAI:C(MARKET, Treatment('US'))[T.India]     5.3853      3.376      1.595      0.111      -1.232      12.002
 ==================================================================================================================
 
-RQ2  N = 454
+RQ2 primary  N = 1400  firms = 151
 ======================================================================================================================
                                                          coef    std err          z      P>|z|      [0.025      0.975]
 ----------------------------------------------------------------------------------------------------------------------
-Intercept                                             33.6635     32.754      1.028      0.304     -30.532      97.859
-C(SEGMENT)[T.IT consulting & application services]    -3.8846      4.906     -0.792      0.429     -13.501       5.732
-C(SEGMENT)[T.Systems integration]                     -1.2322      4.882     -0.252      0.801     -10.802       8.337
-AI_INTENSITY                                           0.9432      0.390      2.421      0.015       0.180       1.707
-LOG_REVENUE                                           -1.4701      1.564     -0.940      0.347      -4.536       1.596
-SGA_RATIO                                             -0.0433      0.119     -0.364      0.716      -0.276       0.190
-OP_MARGIN                                             -0.0077      0.054     -0.144      0.886      -0.113       0.097
-REV_GROWTH_LAG1                                        0.5467      0.090      6.066      0.000       0.370       0.723
+Intercept                                             -2.2082     11.734     -0.188      0.851     -25.207      20.790
+C(SEGMENT)[T.IT consulting & application services]    -1.9702      1.765     -1.116      0.264      -5.429       1.489
+C(SEGMENT)[T.Systems integration]                     -1.4154      2.047     -0.692      0.489      -5.427       2.596
+AI_INTENSITY                                           0.3300      0.143      2.302      0.021       0.049       0.611
+LOG_REVENUE                                            0.3153      0.554      0.569      0.569      -0.770       1.401
+OP_MARGIN                                              0.0071      0.037      0.190      0.850      -0.066       0.080
+REV_GROWTH_LAG1                                        0.6722      0.050     13.333      0.000       0.573       0.771
+IS_10K                                                -1.5295      1.461     -1.047      0.295      -4.393       1.334
 ======================================================================================================================
-     R2=0.373 adjR2=0.363 RMSE=44.55 MAE=16.09
+     R2=0.465 adjR2=0.462 RMSE=25.83 MAE=11.88
+RQ2 + quarter fixed effects: N=1400 b=0.243 SE=0.146 p=0.0960
+RQ2 + SGA_RATIO (firms reporting SG&A, 52 firms): N=451 b=0.615 SE=0.274 p=0.0249
+RQ2 four-quarter average AI score: N=1394 b=0.423 SE=0.167 p=0.0113
 
-RQ3  train=784 valid=144 test=137  decline rate=0.332
-RQ3  logit         AUC=0.771 acc=0.693 prec=0.532 rec=0.556 F1=0.543 Brier=0.249 thr=0.69
-RQ3  random_forest AUC=0.886 acc=0.788 prec=0.633 rec=0.844 F1=0.724 Brier=0.146 thr=0.44
-RQ3  xgboost       AUC=0.836 acc=0.774 prec=0.640 rec=0.711 F1=0.674 Brier=0.172 thr=0.55
+RQ3  train=2274 valid=443 test=421  decline rate=0.296
+     test 2025: firms=114 declines=113 non-declines=308
+RQ3  persistence baseline AUC=0.793  prevalence-only Brier=0.197
+RQ3  logit         AUC=0.856 acc=0.791 prec=0.581 rec=0.796 F1=0.672 Brier=0.176 thr=0.53
+     DeLong 95% CI 0.816 to 0.896; firm-bootstrap 95% CI 0.808 to 0.898; vs persistence baseline: diff=0.063 z=3.17 p=0.0015
+RQ3  random_forest AUC=0.892 acc=0.755 prec=0.526 rec=0.903 F1=0.664 Brier=0.129 thr=0.31
+     DeLong 95% CI 0.860 to 0.925; firm-bootstrap 95% CI 0.854 to 0.925; vs persistence baseline: diff=0.100 z=6.08 p=0.0000
+RQ3  xgboost       AUC=0.879 acc=0.815 prec=0.614 rec=0.832 F1=0.707 Brier=0.120 thr=0.24
+     DeLong 95% CI 0.841 to 0.917; firm-bootstrap 95% CI 0.837 to 0.914; vs persistence baseline: diff=0.087 z=4.90 p=0.0000
 
-RQ4 contingency table
+RQ4 contingency table (descriptive)
  DECLINE_Q                               0    1
 SEGMENT                                       
-Data processing & managed services    323  153
-IT consulting & application services  441  215
-Systems integration                   221  126
-     chi2=1.78 df=2 p=0.4115 Cramer's V=0.035  min expected=115.9
+Data processing & managed services    321  153
+IT consulting & application services  431  215
+Systems integration                   220  126
+     Pearson chi2=1.62 df=2 p=0.4445 Cramer's V=0.033  min expected=116.6 (treats firm-quarters as independent; descriptive only)
      standardized residuals
  DECLINE_Q                                    0         1
 SEGMENT                                                 
-Data processing & managed services    0.336342 -0.474937
-IT consulting & application services  0.196643 -0.277672
-Systems integration                  -0.664305  0.938041
+Data processing & managed services    0.379315 -0.532071
+IT consulting & application services  0.129664 -0.181881
+Systems integration                  -0.621139  0.871282
+RQ4 primary: GEE logistic, firms=157 firm-quarters=1466, working correlation=0.373; Wald chi2=0.90 df=2 p=0.6369
+     odds ratios vs Data processing & managed services: IT consulting & application services 1.10; Systems integration 1.33
+     design-effect-adjusted chi2 = 1.62 / 4.11 = 0.39, p=0.8210
+     firm-level decline share by segment (Kruskal-Wallis on 157 firms): H=2.11 p=0.3478; medians: Data processing & managed services 0.21; IT consulting & application services 0.33; Systems integration 0.46
 
