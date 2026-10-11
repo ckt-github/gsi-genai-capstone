@@ -14,6 +14,7 @@ segment_map:
   7374: "Data processing & managed services"
 
 min_annual_revenue_usd: 10000000      # exclude shells / micro filers (TTM revenue < $10M)
+min_prior_revenue_usd: 1000000       # growth left blank when the year-earlier quarter had revenue below $1M (or <= 0)
 forms: ["10-Q", "10-K", "10-Q/A", "10-K/A"]
 max_requests_per_second: 8            # below SEC's 10 req/s limit
 winsorize: [0.01, 0.99]
