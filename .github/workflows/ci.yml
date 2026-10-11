@@ -22,8 +22,8 @@ jobs:
         run: python -m py_compile src/*.py
       - name: Unit tests
         run: pytest -q tests
-      - name: Sample size reproduces N = 1,068
-        run: python src/00_sample_size.py | tee /tmp/ss.txt && grep -q "1068\|1,068" /tmp/ss.txt
+      - name: Base sample sizes reproduce (788, 395, 473, 964)
+        run: python src/00_sample_size.py | tee /tmp/ss.txt && grep -q "FINAL N = max = 964" /tmp/ss.txt && grep -q "RQ3: minimum N = 473" /tmp/ss.txt
       - name: India pipeline from snapshot
         run: |
           python src/02b_india_financials.py

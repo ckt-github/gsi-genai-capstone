@@ -75,6 +75,9 @@ jobs:
       - name: 05 Analysis
         run: python src/05_analysis.py
 
+      - name: 00b Design check (required vs available sample)
+        run: python src/00b_design_check.py
+
       # 2026 extension: a separate robustness check that never changes the 2019-2025 results above
       - name: 04x Build 2026 extension panel
         run: python src/04_build_panel.py --extension
