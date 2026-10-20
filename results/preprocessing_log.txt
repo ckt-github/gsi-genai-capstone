@@ -1,0 +1,13 @@
+financial rows read: 12554 (396 firms)
+duplicate firm-calendar-quarter rows removed (two fiscal quarters mapped to one calendar quarter; latest kept): 41
+filings scored: 7858; extra filings for an already-scored firm-quarter removed (amendments or second filings; original kept): 524
+firm-quarters in the study window: 6509 (349 firms)
+removed as shells / micro filers (TTM revenue < US$10M or not yet four quarters): 2517
+removed because year-over-year growth cannot be computed (no comparable quarter a year earlier, or prior-year revenue < US$1M): 228
+final panel: 3764 firm-quarters (216 firms)
+winsorized REV_GROWTH_YOY: 39 values raised to the 1st percentile, 39 lowered to the 99th (limits by market: India -11.18 to 83.00; US -68.95 to 249.50)
+winsorized REV_GROWTH_LAG1: 38 values raised to the 1st percentile, 38 lowered to the 99th (limits by market: India -12.23 to 83.52; US -65.79 to 246.34)
+winsorized OP_MARGIN: 38 values raised to the 1st percentile, 38 lowered to the 99th (limits by market: India 3.97 to 25.56; US -463.48 to 65.31)
+winsorized SGA_RATIO: 12 values raised to the 1st percentile, 12 lowered to the 99th (limits by market: India nan to nan; US 4.52 to 166.06)
+winsorized AI_INTENSITY: 0 values raised to the 1st percentile, 35 lowered to the 99th (limits by market: India nan to nan; US 0.00 to 18.47)
+winsorized AI_INTENSITY_4Q: 0 values raised to the 1st percentile, 34 lowered to the 99th (limits by market: India nan to nan; US 0.00 to 16.06)

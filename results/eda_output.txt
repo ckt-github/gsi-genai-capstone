@@ -1,0 +1,175 @@
+EXPLORATORY DATA ANALYSIS (panel_firm_quarter.csv)
+
+1. Size of the panel
+                   firm_quarters  firms
+MARKET PERIOD                          
+India  post                  170     15
+       pre                   168     15
+       transition             10     10
+US     post                 1466    157
+       pre                  1817    180
+       transition            133    133
+
+U.S. firms and firm-quarters by segment
+                                      firm_quarters  firms
+SEGMENT                                                   
+Data processing & managed services             1104     68
+IT consulting & application services           1490     92
+Systems integration                             822     41
+
+Largest U.S. firms by maximum quarterly revenue (US$ millions): Alphabet Inc. 113,828; Meta Platforms, Inc. 59,894; Accenture plc 18,742; AUTOMATIC DATA PROCESSING INC 5,553; COGNIZANT TECHNOLOGY SOLUTIONS CORP 5,415
+U.S. firm-quarters without an AI score, by firm: Veradigm Inc. 7; CLARIVATE PLC 3; Kyndryl Holdings, Inc. 1; Medallia, Inc. 1
+
+Revenue (US$ millions) of U.S. firm-quarters: median 151.0, mean 1374.7, largest 113,828
+
+2. Descriptive statistics, U.S. firm-quarters, by period
+
+[pre-GenAI]
+                 count   mean    std     min    25%    50%    75%     max  missing_%
+REV_GROWTH_YOY  1817.0  20.34  46.71  -68.95   0.00  11.12  28.59  249.50       0.00
+AI_INTENSITY    1812.0   0.73   2.00    0.00   0.00   0.00   0.60   18.47       0.28
+OP_MARGIN       1781.0 -16.31  62.54 -463.48 -21.76  -1.59  10.07   65.31       1.98
+LOG_REVENUE     1812.0  18.62   1.94    9.77  17.42  18.67  19.84   25.05       0.28
+SGA_RATIO        634.0  31.81  25.79    4.52  17.86  24.10  36.27  166.06      65.11
+
+[post-GenAI]
+                 count   mean    std     min    25%    50%    75%     max  missing_%
+REV_GROWTH_YOY  1466.0  10.35  36.78  -68.95  -3.36   5.75  16.19  249.50       0.00
+AI_INTENSITY    1459.0   3.67   4.69    0.00   0.00   1.71   5.48   18.47       0.48
+OP_MARGIN       1438.0 -15.21  71.19 -463.48 -14.25   1.80  11.56   65.31       1.91
+LOG_REVENUE     1459.0  18.92   1.94   12.14  17.79  19.01  20.16   25.46       0.48
+SGA_RATIO        496.0  28.41  20.39    4.52  17.14  23.01  31.67  166.06      66.17
+
+[India, all periods] (no 10-Q/10-K text, no SG&A line)
+                count   mean    std    min    25%    50%    75%    max  missing_%
+REV_GROWTH_YOY  348.0  14.01  14.62 -11.18   5.21  10.87  19.67  83.00        0.0
+OP_MARGIN       348.0  15.00   4.97   3.97  12.05  14.82  17.96  25.56        0.0
+LOG_REVENUE     348.0  20.14   1.40  17.82  18.90  19.64  21.63  22.76        0.0
+
+3. Binary variables (share of firm-quarters = 1), U.S.
+            DECLINE_Q  DECLINE_NEXT_Q  GENAI_MENTION  IS_10K
+PERIOD                                                      
+post            0.337           0.334          0.349   0.235
+pre             0.250           0.264          0.004   0.200
+transition      0.308           0.383          0.075   0.812
+
+India decline share by period: {'post': 0.112, 'pre': 0.107, 'transition': 0.0}
+
+4. Skewness and extreme values (after winsorizing)
+   REV_GROWTH_YOY  skew=2.74  mean=15.64  median=7.95  share above 100 = 4.3%
+   AI_INTENSITY    skew=2.53  mean=2.02  median=0.26  share above 100 = 0.0%
+   OP_MARGIN       skew=-4.41  mean=-16.41  median=0.02  share above 100 = 0.0%
+   fastest-growing U.S. firms after GenAI (median growth %):
+      XTI Aerospace, Inc.: 249.5
+      Applied Digital Corp.: 166.2
+      IonQ, Inc.: 104.2
+      Tempus AI, Inc.: 83.9
+      Eva Live Inc: 76.8
+   U.S. firm-quarters with zero or negative revenue: 12
+
+5. Trend by year (U.S. and India): median and mean growth, decline share
+               n  median_growth  mean_growth  decline_share
+MARKET YEAR                                                
+India  2019   28           8.00        10.21           0.18
+       2020   50           7.86         9.02           0.22
+       2021   56          17.93        19.29           0.04
+       2022   44          23.04        25.66           0.00
+       2023   50          12.56        16.68           0.12
+       2024   60           6.47         8.10           0.10
+       2025   60           8.39        10.13           0.12
+US     2019  456           8.77        16.69           0.27
+       2020  449           4.30         6.37           0.39
+       2021  482          18.06        31.24           0.17
+       2022  563          11.49        22.60           0.21
+       2023  537           5.60         9.71           0.36
+       2024  479           4.99         6.93           0.37
+       2025  450           7.05        14.75           0.28
+
+U.S. growth quartiles by year (P25, median, P75)
+      0.25  0.50  0.75
+YEAR                  
+2019  -0.9   8.8  25.7
+2020  -7.2   4.3  18.9
+2021   4.5  18.1  39.4
+2022   1.9  11.5  30.7
+2023  -3.9   5.6  16.4
+2024  -4.6   5.0  14.9
+2025  -1.1   7.0  17.6
+
+Median growth by calendar quarter, U.S. and India
+MARKET  India    US
+Q                  
+2019Q1   16.1  10.0
+2019Q2   13.3   8.5
+2019Q3    7.8   8.0
+2019Q4    7.9   7.9
+2020Q1    7.9   6.1
+2020Q2    8.5   0.4
+2020Q3    7.3   4.8
+2020Q4    6.4   5.6
+2021Q1    8.1  14.5
+2021Q2   17.7  21.8
+2021Q3   20.2  20.0
+2021Q4   23.8  17.2
+2022Q1   23.6  18.5
+2022Q2   23.5  15.3
+2022Q3   23.8  11.6
+2022Q4   20.8   6.4
+2023Q1   18.6   5.1
+2023Q2   12.9   5.6
+2023Q3    9.9   5.5
+2023Q4    6.5   6.3
+2024Q1    6.2   5.0
+2024Q2    5.2   3.8
+2024Q3    7.7   3.8
+2024Q4    7.1   6.6
+2025Q1    8.7   5.3
+2025Q2    7.6   8.3
+2025Q3    8.5   7.3
+2025Q4    8.4   6.5
+
+LOG_REVENUE range 9.77 to 25.46 = 6.8 orders of magnitude
+
+U.S. AI disclosure by year: median AI_INTENSITY, mean AI_INTENSITY, share with a GenAI term
+      median_ai  mean_ai  genai_share
+YEAR                                 
+2019      0.000    0.584        0.000
+2020      0.000    0.598        0.002
+2021      0.000    0.863        0.008
+2022      0.000    1.018        0.023
+2023      0.676    2.379        0.257
+2024      1.972    3.663        0.366
+2025      3.136    5.204        0.440
+
+6. Decline share by segment and period (U.S.)
+                                             firm_quarters  firms  decline_share  median_growth
+SEGMENT                              PERIOD                                                    
+Data processing & managed services   post              474     50          0.323          6.338
+                                     pre               590     60          0.231         13.909
+IT consulting & application services post              646     71          0.333          5.541
+                                     pre               785     82          0.238         14.578
+Systems integration                  post              346     36          0.364          5.129
+                                     pre               442     38          0.296          6.382
+
+7. Spearman correlations, U.S. post-GenAI firm-quarters
+                 REV_GROWTH_YOY  REV_GROWTH_LAG1  AI_INTENSITY  GENAI_MENTION  LOG_REVENUE  OP_MARGIN  IS_10K  DECLINE_NEXT_Q
+REV_GROWTH_YOY             1.00             0.74          0.17           0.18         0.12       0.16    0.04           -0.61
+REV_GROWTH_LAG1            0.74             1.00          0.14           0.16         0.10       0.14    0.05           -0.46
+AI_INTENSITY               0.17             0.14          1.00           0.72         0.20       0.12    0.38           -0.15
+GENAI_MENTION              0.18             0.16          0.72           1.00         0.22       0.10    0.35           -0.14
+LOG_REVENUE                0.12             0.10          0.20           0.22         1.00       0.57    0.04           -0.20
+OP_MARGIN                  0.16             0.14          0.12           0.10         0.57       1.00    0.05           -0.25
+IS_10K                     0.04             0.05          0.38           0.35         0.04       0.05    1.00            0.02
+DECLINE_NEXT_Q            -0.61            -0.46         -0.15          -0.14        -0.20      -0.25    0.02            1.00
+
+8. Growth by AI-disclosure group, U.S. post-GenAI (no AI terms, then quartiles of the positive values)
+             n  ai_median  growth_median  growth_mean  decline_share  log_rev_median
+AI_Q                                                                                
+None (0)   442       0.00           2.91         7.05           0.44           18.51
+Q1 (low)   255       0.71           4.82         9.22           0.33           19.11
+Q2         254       2.44           5.42         7.83           0.35           18.79
+Q3         254       5.10           6.34        10.92           0.31           19.13
+Q4 (high)  254      11.79          10.26        19.42           0.19           19.27
+
+9. Quarters per firm (U.S.)
+   mean 17.0, median 16, min 1, max 28; firms with all 28 quarters: 56
