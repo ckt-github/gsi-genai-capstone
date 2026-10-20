@@ -1,6 +1,6 @@
 variable,role,type,unit,definition_and_source,relevance,valid_values_and_missing
 cik,Identifier,Nominal,,"SEC Central Index Key (submissions API); ""NSE:<symbol>"" for Indian firms",Unique firm ID; cluster variable for standard errors,Never missing
-ticker,Identifier,Nominal,,Exchange ticker (SEC company_tickers.json) or NSE trading symbol,Readability; links to named GSIs,"Blank when the SEC tickers file has no ticker (about a quarter of U.S. rows, mostly delisted firms)"
+ticker,Identifier,Nominal,,Exchange ticker (SEC company_tickers.json) or NSE trading symbol,Readability; links to named GSIs,"Blank when the SEC tickers file has no ticker (about 30% of U.S. rows, mostly delisted firms)"
 name,Identifier,Nominal,,Registrant name (SEC submissions API) or company name (config/india_firms.csv),Readability,Never missing
 MARKET,Grouping; moderator (RQ1 robustness),"Nominal, 2 levels",,US = SEC registrant; India = NSE-listed comparison firm (config/india_firms.csv),Tests whether the post-GenAI shift is common to U.S.-listed and Indian-listed GSIs,"Codes: US, India"
 sic,Grouping,Nominal,4-digit code,SEC Standard Industrial Classification code (blank for Indian firms),Defines study universe and SEGMENT,"7370, 7371, 7373, 7374 (plus GSIs added by name); blank for Indian firms"

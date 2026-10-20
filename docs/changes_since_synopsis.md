@@ -4,6 +4,24 @@ The synopsis (`docs/synopsis.pdf`) is the submitted version and is not edited. T
 change made to the study afterwards, so later submissions (interim and final reports) can describe them.
 Newest entries at the top.
 
+## 20 October 2026 (interim report)
+
+### Added: exploratory analysis (`src/08_eda.py`)
+- Summary statistics by period, missing values, skewness, trends by quarter and year, decline share by
+  segment, growth by AI-disclosure group, and Spearman correlations. Output: `results/eda_output.txt` and
+  charts in `results/figures/eda_*.png`.
+
+### Added: model details (`src/09_model_details.py`)
+- RQ1 without 2020 and a median regression; RQ2 VIF, Breusch–Pagan, residual checks, Huber regression and a
+  random forest with SHAP; RQ3 model choice on 2024 validation AUC, confusion matrices, Wilson intervals,
+  expected cost, the acceptance-criteria check, an ablation without the AI features, and SHAP importance;
+  RQ4 odds ratios with confidence intervals and firm-bootstrap decline shares. Output:
+  `results/model_details.txt` and `results/figures/model_*.png`.
+
+### Added: preprocessing log (`src/04_build_panel.py`)
+- Writes `results/preprocessing_log.txt` with the rows removed or changed at each step (duplicates,
+  amendments, shells, growth not computable, winsorized values). The panel itself is unchanged.
+
 ## 11 October 2026 (after mentor review of the synopsis)
 
 The mentor's review asked for sample sizes that allow for repeated quarters of the same firm, a
