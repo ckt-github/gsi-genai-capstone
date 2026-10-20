@@ -73,7 +73,9 @@ gsi-genai-capstone/
 │   ├── 05_analysis.py         # RQ1–RQ4 tests and models
 │   ├── rq3_models.py          # RQ3 features, time splits and models (shared by 05 and 06)
 │   ├── 06_extension_2026.py   # 2026 robustness check: RQ1 by year, frozen RQ3 model
-│   └── 07_gsi_focus.py        # the study's questions for the large commercial GSIs
+│   ├── 07_gsi_focus.py        # the study's questions for the large commercial GSIs
+│   ├── 08_eda.py              # exploratory analysis: summaries, trends, correlations, charts
+│   └── 09_model_details.py    # diagnostics, confusion matrices, ablation, SHAP, RQ4 intervals
 └── tests/test_pipeline.py
 ```
 
@@ -103,6 +105,8 @@ python src/00b_design_check.py              # needs the panel from step 04
 python src/04_build_panel.py --extension    # optional: 2026 extension
 python src/06_extension_2026.py
 python src/07_gsi_focus.py                  # GSI focus
+python src/08_eda.py                        # exploratory analysis and charts
+python src/09_model_details.py              # model diagnostics and evaluation details
 ```
 
 The analysis file is `data/processed/panel_firm_quarter.csv`; every variable is defined in
@@ -118,11 +122,13 @@ two hours in total.
 | 02_get_financials.py | `data/interim/financials_quarterly.csv` | Quarterly revenue, operating income, SG&A |
 | 02b_india_financials.py | `data/interim/india_financials_quarterly.csv` | 15 firms, revenue in INR and USD |
 | 03_ai_intensity.py | `data/interim/ai_scores.csv` | One row per 10-Q/10-K with AI score and form |
-| 04_build_panel.py | `data/processed/panel_firm_quarter.csv`, `results/panel_summary.txt` | Firm-quarters by market and period |
+| 04_build_panel.py | `data/processed/panel_firm_quarter.csv`, `results/panel_summary.txt`, `results/preprocessing_log.txt` | Firm-quarters by market and period; rows removed at each step |
 | 05_analysis.py | `results/analysis_output.txt` | RQ1–RQ4 results |
 | 00b_design_check.py | `results/design_check.txt` | Required vs available N, ICC, test-set events |
 | 06_extension_2026.py | `results/extension_2026_output.txt`, `results/extension_eligibility.csv` | 2026 robustness check |
 | 07_gsi_focus.py | `results/gsi_focus_output.txt` | GSI-only view |
+| 08_eda.py | `results/eda_output.txt`, `results/figures/eda_*.png` | Summaries, trends, correlations |
+| 09_model_details.py | `results/model_details.txt`, `results/figures/model_*.png` | Diagnostics, confusion matrices, ablation, SHAP |
 
 **Data versions.** SEC data are downloaded fresh on each run (the run date is in the commit message of
 the output commit). The NSE and FRED files are fixed snapshots captured on 3 October 2026
