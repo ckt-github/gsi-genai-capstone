@@ -44,6 +44,9 @@ if in_path.exists():
 
 fin = pd.concat(parts, ignore_index=True)
 fin["cik"] = fin["cik"].astype(str)
+LOG = [f"financial rows read: {len(fin)} ({fin['cik'].nunique()} firms)"]
+LOG.append(f"duplicate firm-calendar-quarter rows removed (two fiscal quarters mapped to one calendar quarter; "
+           f"latest kept): {int(fin.duplicated(['cik', 'cal_qtr']).sum())}")
 fin = fin.sort_values(["cik", "cal_qtr"]).drop_duplicates(["cik", "cal_qtr"], keep="last").reset_index(drop=True)
 
 by = lambda col: fin.groupby("cik")[col]
@@ -69,6 +72,8 @@ if ai_path.exists():
     ai = pd.read_csv(ai_path, parse_dates=["report_date"])
     ai["cik"] = ai["cik"].astype(str)
     ai["cal_qtr"] = (ai["report_date"] - pd.Timedelta(days=45)).dt.to_period("Q")
+    LOG.append(f"filings scored: {len(ai)}; extra filings for an already-scored firm-quarter removed (amendments "
+               f"or second filings; original kept): {int(ai.duplicated(['cik', 'cal_qtr']).sum())}")
     ai = ai.sort_values("form").drop_duplicates(["cik", "cal_qtr"], keep="first")  # 10-K before 10-K/A
     panel = fin.merge(ai[["cik", "cal_qtr", "form", "ai_intensity", "genai_mention"]], on=["cik", "cal_qtr"],
                       how="left")
@@ -94,8 +99,14 @@ panel["POST_GENAI"] = (panel["PERIOD"] == "post").astype(int)
 # filters: study window, shells, missing core fields
 last = SETTINGS["extension"]["period_end"] if EXT else post[1]
 panel = panel[(qstart >= "2019-01-01") & (qstart <= last)]
-panel = panel[panel["rev_ttm"] >= SETTINGS["min_annual_revenue_usd"]]
+LOG.append(f"firm-quarters in the study window: {len(panel)} ({panel['cik'].nunique()} firms)")
+small = ~(panel["rev_ttm"] >= SETTINGS["min_annual_revenue_usd"])   # NaN (fewer than 4 quarters) also removed
+LOG.append(f"removed as shells / micro filers (TTM revenue < US$10M or not yet four quarters): {int(small.sum())}")
+panel = panel[~small]
+LOG.append(f"removed because year-over-year growth cannot be computed (no comparable quarter a year earlier, "
+           f"or prior-year revenue < US$1M): {int(panel['REV_GROWTH_YOY'].isna().sum())}")
 panel = panel.dropna(subset=["REV_GROWTH_YOY"]).copy()
+LOG.append(f"final panel: {len(panel)} firm-quarters ({panel['cik'].nunique()} firms)")
 
 if EXT:  # keep only the 2026 quarters that pass the eligibility rule, market by market
     cfg = SETTINGS["extension"]
@@ -119,6 +130,10 @@ lo, hi = SETTINGS["winsorize"]
 main_rows = panel[panel["SAMPLE"] == "main"]
 for c in ["REV_GROWTH_YOY", "REV_GROWTH_LAG1", "OP_MARGIN", "SGA_RATIO", "AI_INTENSITY", "AI_INTENSITY_4Q"]:
     limits = main_rows.groupby("MARKET")[c].quantile([lo, hi]).unstack()
+    below = panel[c] < panel["MARKET"].map(limits[lo]); above = panel[c] > panel["MARKET"].map(limits[hi])
+    LOG.append(f"winsorized {c}: {int(below.sum())} values raised to the 1st percentile, {int(above.sum())} lowered "
+               f"to the 99th (limits by market: " + "; ".join(f"{m} {limits.loc[m, lo]:.2f} to {limits.loc[m, hi]:.2f}"
+                                                               for m in limits.index) + ")")
     panel[c] = panel[c].clip(panel["MARKET"].map(limits[lo]), panel["MARKET"].map(limits[hi]))
 
 panel["FISCAL_QTR"] = panel["cal_qtr"].astype(str)
@@ -130,5 +145,6 @@ if EXT:
     print(panel.groupby(["MARKET", "SAMPLE", "PERIOD"]).size())
 else:
     panel[cols].to_csv(PROCESSED / "panel_firm_quarter.csv", index=False)
+    (RESULTS / "preprocessing_log.txt").write_text("\n".join(LOG) + "\n")
     print(panel.groupby(["MARKET", "PERIOD"]).size())
 print(f"{panel['cik'].nunique()} firms, {len(panel):,} firm-quarters")
