@@ -88,6 +88,12 @@ jobs:
       - name: 07 GSI focus
         run: python src/07_gsi_focus.py
 
+      - name: 08 Exploratory analysis
+        run: python src/08_eda.py
+
+      - name: 09 Model details
+        run: python src/09_model_details.py
+
       - name: Commit outputs
         if: always()   # keep partial progress (e.g. AI scores) even if a later step fails
         run: |
