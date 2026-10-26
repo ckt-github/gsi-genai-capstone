@@ -43,6 +43,7 @@ logged in [`docs/changes_since_synopsis.md`](docs/changes_since_synopsis.md).
 gsi-genai-capstone/
 ├── .github/workflows/
 │   ├── ci.yml                 # checks on every push (compile, tests, sample size, India pipeline)
+│   ├── sensitivity_data.yml   # downloads the extra SEC data used by src/11_sensitivity.py
 │   └── pipeline.yml           # full pipeline in the cloud; commits outputs back to the repo
 ├── config/
 │   ├── settings.yaml          # study window, SIC codes, filters
@@ -75,7 +76,9 @@ gsi-genai-capstone/
 │   ├── 06_extension_2026.py   # 2026 robustness check: RQ1 by year, frozen RQ3 model
 │   ├── 07_gsi_focus.py        # the study's questions for the large commercial GSIs
 │   ├── 08_eda.py              # exploratory analysis: summaries, trends, correlations, charts
-│   └── 09_model_details.py    # diagnostics, confusion matrices, ablation, SHAP, RQ4 intervals
+│   ├── 09_model_details.py    # diagnostics, confusion matrices, ablation, SHAP, RQ4 intervals
+│   ├── 10_sensitivity_data.py # first-reported XBRL values and AI-match passages (workflow sensitivity_data.yml)
+│   └── 11_sensitivity.py      # confounding, fixed effects, first-reported, rolling origin, services core, AI precision
 └── tests/test_pipeline.py
 ```
 
@@ -107,6 +110,8 @@ python src/06_extension_2026.py
 python src/07_gsi_focus.py                  # GSI focus
 python src/08_eda.py                        # exploratory analysis and charts
 python src/09_model_details.py              # model diagnostics and evaluation details
+python src/10_sensitivity_data.py           # extra SEC data for the checks below (or run the workflow)
+python src/11_sensitivity.py                # sensitivity analyses added after the interim review
 ```
 
 The analysis file is `data/processed/panel_firm_quarter.csv`; every variable is defined in
@@ -129,6 +134,8 @@ two hours in total.
 | 07_gsi_focus.py | `results/gsi_focus_output.txt` | GSI-only view |
 | 08_eda.py | `results/eda_output.txt`, `results/figures/eda_*.png` | Summaries, trends, correlations |
 | 09_model_details.py | `results/model_details.txt`, `results/figures/model_*.png` | Diagnostics, confusion matrices, ablation, SHAP |
+| 10_sensitivity_data.py | `data/interim/xbrl_vintages.csv.gz`, `data/interim/ai_match_contexts.csv.gz` | Every reported XBRL value with its filing date; text around AI matches |
+| 11_sensitivity.py | `results/sensitivity_output.txt`, `results/ai_precision_sample.csv` | Confounding checks, fixed effects, first-reported values, rolling origin, services core, AI precision |
 
 **Data versions.** SEC data are downloaded fresh on each run (the run date is in the commit message of
 the output commit). The NSE and FRED files are fixed snapshots captured on 3 October 2026
