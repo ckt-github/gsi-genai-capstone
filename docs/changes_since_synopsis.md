@@ -4,6 +4,37 @@ The synopsis (`docs/synopsis.pdf`) is the submitted version and is not edited. T
 change made to the study afterwards, so later submissions (interim and final reports) can describe them.
 Newest entries at the top.
 
+## 26 October 2026 (after evaluator review of the interim report)
+
+The interim review asked for the pending checks to be completed and for the results to be reported with
+more caution. Everything below is additional; the panel file and the RQ1, RQ2 and RQ4 results are unchanged.
+
+### Changed: RQ3 winsorizing limits (`src/rq3_models.py`, `src/04_build_panel.py`)
+- `04_build_panel.py` now also writes the values before winsorizing (`data/interim/panel_prewinsor.csv`).
+- `rq3_models.design()` re-caps the four ratio features (growth, lagged growth, operating margin,
+  AI_INTENSITY) at the 1st/99th percentiles of the training years only (2019–2023), so the 2024 and 2025
+  data no longer influence the caps used by the classifiers. This is now the main RQ3 specification;
+  `05`, `06`, `07` and `09` pick it up automatically. Random forest test AUC 0.892 → 0.893.
+
+### Added: sensitivity data (`src/10_sensitivity_data.py`, workflow `sensitivity_data.yml`)
+- Every reported XBRL value for revenue and operating income with its filing date
+  (`data/interim/xbrl_vintages.csv.gz`), used to rebuild RQ3 features as first reported.
+- 70 filings drawn at random with probability proportional to their AI matches
+  (`data/interim/ai_precision_draws.csv`, seed 42) and the text around every match
+  (`data/interim/ai_match_contexts.csv.gz`).
+
+### Added: sensitivity analyses (`src/11_sensitivity.py`)
+- RQ1 confounding checks (post-GenAI against 2019 only, against 2019–2020, against the 2021–2022 boom,
+  a placebo break inside the pre-GenAI period).
+- RQ2 with year, firm, and firm-plus-quarter fixed effects.
+- RQ3 with first-reported XBRL values; rolling-origin evaluation for test years 2022–2025;
+  firm-bootstrap intervals for recall and precision and alternative thresholds.
+- A narrower services-core sample without the large internet-platform, software-product and data firms.
+- RQ4 confidence intervals for the differences in decline share between segments.
+- Precision of the AI keyword dictionary on 50 manually reviewed matches
+  (labels in `data/interim/ai_precision_labels.csv`; sample in `results/ai_precision_sample.csv`).
+- Output: `results/sensitivity_output.txt`.
+
 ## 20 October 2026 (interim report)
 
 ### Added: exploratory analysis (`src/08_eda.py`)
