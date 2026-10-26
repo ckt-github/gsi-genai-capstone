@@ -125,6 +125,12 @@ if EXT:  # keep only the 2026 quarters that pass the eligibility rule, market by
     panel = panel[keep].copy()
     pd.DataFrame(report).to_csv(RESULTS / "extension_eligibility.csv", index=False)
 
+# keep the values before winsorizing: RQ3 re-caps its features with limits from the training years only
+# (rq3_models.design), so the 2024 validation and 2025 test years never influence the caps it uses
+RQ3_RAW = ["REV_GROWTH_YOY", "REV_GROWTH_LAG1", "OP_MARGIN", "AI_INTENSITY"]
+raw = panel[["cik"] + RQ3_RAW].assign(FISCAL_QTR=panel["cal_qtr"].astype(str))
+raw.to_csv(INTERIM / ("panel_prewinsor_extension.csv" if EXT else "panel_prewinsor.csv"), index=False)
+
 # winsorize ratio variables at 1st / 99th percentiles within each market (limits from the main window)
 lo, hi = SETTINGS["winsorize"]
 main_rows = panel[panel["SAMPLE"] == "main"]

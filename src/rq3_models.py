@@ -20,8 +20,39 @@ FEATS = ["AI_INTENSITY", "GENAI_MENTION", "LOG_REVENUE", "IS_10K", "OP_MARGIN",
 TARGET = "DECLINE_NEXT_Q"
 
 
-def design(us):
+TRAIN_END = "2024Q1"          # first quarter after the training years
+CAPPED = ["REV_GROWTH_YOY", "REV_GROWTH_LAG1", "OP_MARGIN", "AI_INTENSITY"]
+
+
+def train_caps(us, train_end=TRAIN_END):
+    """Re-cap the ratio features with 1st/99th percentile limits taken from the training years only.
+
+    The panel file is winsorized with limits from the whole 2019-2025 window, which is right for the
+    descriptive and explanatory questions but lets the 2025 test year shape the caps used by RQ3.
+    Here the uncapped values (written by 04_build_panel.py) are capped again using 2019-2023 rows only.
+    Returns (frame, limits) or (us, None) when the uncapped file is not available.
+    """
+    from common import INTERIM, SETTINGS
+    path = INTERIM / ("panel_prewinsor_extension.csv" if "SAMPLE" in us.columns else "panel_prewinsor.csv")
+    if not path.exists():
+        return us, None
+    raw = pd.read_csv(path, dtype={"cik": str}).set_index(["cik", "FISCAL_QTR"])
+    out = us.copy()
+    key = pd.MultiIndex.from_arrays([out["cik"].astype(str), out["FISCAL_QTR"]])
+    lo, hi = SETTINGS["winsorize"]
+    limits = {}
+    for c in CAPPED:
+        vals = pd.Series(raw[c].reindex(key).values, index=out.index)
+        tr = vals[out["FISCAL_QTR"] < train_end]
+        limits[c] = (tr.quantile(lo), tr.quantile(hi))
+        out[c] = vals.clip(*limits[c])
+    return out, limits
+
+
+def design(us, train_only_caps=True, train_end=TRAIN_END):
     """Rows with complete features and outcome, plus segment dummies. Returns (data, feature list)."""
+    if train_only_caps:
+        us, _ = train_caps(us, train_end)
     d = us.dropna(subset=FEATS + [TARGET, "SEGMENT"]).copy()
     d[FEATS] = d[FEATS].astype(float)
     d = pd.concat([d, pd.get_dummies(d["SEGMENT"], prefix="SEG", drop_first=True, dtype=int)], axis=1)
