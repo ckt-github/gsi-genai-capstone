@@ -1,0 +1,47 @@
+name: Sensitivity data
+
+# Downloads the extra SEC data for the interim-review checks (first-reported XBRL values and the
+# AI keyword precision sample) and commits it. It does not touch the main panel or results.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || 'Chandan Tiwari ckt-github@users.noreply.github.com' }}
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Restore SEC download cache
+        uses: actions/cache@v4
+        with:
+          path: data/raw/submissions
+          key: sec-submissions-${{ github.run_id }}
+          restore-keys: sec-submissions-
+      - name: Check SEC access
+        run: python src/common.py
+      - name: 10 Sensitivity data
+        run: python src/10_sensitivity_data.py
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/interim/xbrl_vintages.csv.gz data/interim/ai_match_contexts.csv.gz
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sensitivity data $(date -u +%Y-%m-%d) [run ${{ github.run_number }}]"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push
+          fi
