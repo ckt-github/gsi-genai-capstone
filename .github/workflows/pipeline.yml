@@ -94,6 +94,9 @@ jobs:
       - name: 09 Model details
         run: python src/09_model_details.py
 
+      - name: 11 Sensitivity analyses
+        run: python src/11_sensitivity.py
+
       - name: Commit outputs
         if: always()   # keep partial progress (e.g. AI scores) even if a later step fails
         run: |
