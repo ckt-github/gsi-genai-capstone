@@ -1,11 +1,11 @@
-2026 extension (robustness check), built 11 Oct 2026. Main 2019-2025 results are in results/analysis_output.txt and are not affected.
+2026 extension (robustness check), built 26 Oct 2026. Main 2019-2025 results are in results/analysis_output.txt and are not affected.
 
 Which 2026 quarters are in (rule: >= 60 days old and >= 90% of 2025Q4 firms reported)
 market quarter  days_since_end  firms_reported  base_firms  coverage  included
- India  2026Q1             194              15          15     1.000      True
- India  2026Q2             103              15          15     1.000      True
-    US  2026Q1             194             103         107     0.963      True
-    US  2026Q2             103              95         107     0.888     False
+ India  2026Q1             209              15          15     1.000      True
+ India  2026Q2             118              15          15     1.000      True
+    US  2026Q1             209             103         107     0.963      True
+    US  2026Q2             118              95         107     0.888     False
 
 RQ1 extension: year-over-year revenue growth (%) by period
 Note: a few very fast-growing small firms pull the mean up; read the median and trimmed mean too.

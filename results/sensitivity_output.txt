@@ -1,0 +1,97 @@
+1. RQ1 CONFOUNDING CHECKS (U.S., firm-clustered SEs)
+   growth by calendar year (transition quarter excluded):
+      count   mean  median
+YEAR                      
+2019    456  16.69    8.77
+2020    449   6.37    4.30
+2021    482  31.24   18.06
+2022    430  26.57   14.54
+2023    537   9.71    5.60
+2024    479   6.93    4.99
+2025    450  14.75    7.05
+   post vs. 2019 only (pre-pandemic baseline): b=-6.343 (95% CI -13.940 to 1.253) p=0.1017 N=1922 firms=194
+   post vs. 2019-2020 (before the 2021 boom): b=-1.220 (95% CI -7.339 to 4.899) p=0.6960 N=2371 firms=195
+   post vs. 2021-2022Q3 (boom years): b=-18.687 (95% CI -25.640 to -11.734) p=0.0000 N=2378 firms=184
+   slowdown already under way before ChatGPT, 2022Q1-Q3 vs. 2021: b=-4.665 (95% CI -12.611 to 3.281) p=0.2499 N=912 firms=163
+   placebo break at 2021Q1 inside the pre-GenAI period: b=17.467 (95% CI 10.453 to 24.482) p=0.0000 N=1817 firms=180
+   median growth 2021Q4, 2022Q1-Q4, 2023Q1: 2021Q4 17.2%; 2022Q1 18.5%; 2022Q2 15.3%; 2022Q3 11.6%; 2022Q4 6.4%; 2023Q1 5.1%
+
+2. RQ2 AI COEFFICIENT UNDER FIXED EFFECTS (post-GenAI U.S., firm-clustered SEs)
+   primary (segment dummies)                  b=0.330 (95% CI 0.049 to 0.611) p=0.0213 N=1400 firms=151
+   + quarter fixed effects                    b=0.243 (95% CI -0.043 to 0.529) p=0.0960 N=1400 firms=151
+   + year fixed effects                       b=0.258 (95% CI -0.034 to 0.550) p=0.0835 N=1400 firms=151
+   firm fixed effects (within-firm change)    b=-0.159 (95% CI -0.600 to 0.283) p=0.4814 N=1400 firms=151
+   firm and quarter fixed effects             b=0.108 (95% CI -0.380 to 0.595) p=0.6650 N=1400 firms=151
+   + SGA_RATIO (firms reporting SG&A)         b=0.615 (95% CI 0.078 to 1.152) p=0.0249 N=451 firms=52
+   four-quarter average AI score              b=0.423 (95% CI 0.096 to 0.750) p=0.0113 N=1394 firms=150
+   robust (Huber) regression                  b=0.112 (95% CI 0.017 to 0.206) p=0.0212 N=1400
+
+3. RQ3 WINSORIZING LIMITS: TRAINING YEARS ONLY (MAIN) VS. FULL 2019-2025 WINDOW (INTERIM DRAFT)
+   REV_GROWTH_YOY   training-only limits   -71.95 to   261.39; full-window limits   -68.95 to   249.50
+   REV_GROWTH_LAG1  training-only limits   -64.72 to   283.78; full-window limits   -65.79 to   246.34
+   OP_MARGIN        training-only limits  -456.98 to    59.09; full-window limits  -463.48 to    65.31
+   AI_INTENSITY     training-only limits     0.00 to    12.90; full-window limits     0.00 to    18.47
+   random forest, training-only caps (main)  test AUC 0.893; threshold 0.31; recall 0.903; precision 0.528
+   random forest, full-window caps (draft)   test AUC 0.892; threshold 0.31; recall 0.903; precision 0.526
+
+4. RQ3 WITH FIRST-REPORTED XBRL VALUES (features as known on the date quarter t was first reported)
+   U.S. panel rows with a first-reported growth value: 3,411 of 3,416
+   quarters whose revenue was later revised by more than 0.5%: 6.7%; growth differs by more than 1 point: 6.4% (median absolute difference 0.00 points)
+   quarters whose decline status (growth < 0) differs between first-reported and latest values: 75 (2.2%)
+   common rows: 3,118 (test 2025: 420)
+   latest values (main)     logit         test AUC 0.858; threshold 0.52; recall 0.814; precision 0.579
+   latest values (main)     random_forest test AUC 0.894; threshold 0.32; recall 0.903; precision 0.537
+   latest values (main)     xgboost       test AUC 0.875; threshold 0.23; recall 0.832; precision 0.603
+   latest values (main)     persistence baseline AUC 0.793
+   first-reported values    logit         test AUC 0.862; threshold 0.51; recall 0.814; precision 0.554
+   first-reported values    random_forest test AUC 0.902; threshold 0.43; recall 0.858; precision 0.599
+   first-reported values    xgboost       test AUC 0.893; threshold 0.20; recall 0.876; precision 0.586
+   first-reported values    persistence baseline AUC 0.793
+   logit         first-reported minus latest: +0.004 (DeLong z=0.45, p=0.650)
+   random_forest first-reported minus latest: +0.008 (DeLong z=1.14, p=0.255)
+   xgboost       first-reported minus latest: +0.017 (DeLong z=1.94, p=0.053)
+
+5. RQ3 ROLLING-ORIGIN EVALUATION (random forest; train on all earlier years, tune the threshold on the year before the test year, test on one year; caps from that origin's training years)
+   test 2022: train 2019Q1-2020Q4 (n=840), valid 2021 (n=436), test n=507 firms=143 declines=142 (28.0%); AUC 0.847 (95% CI 0.809 to 0.885); persistence AUC 0.754 (DeLong p=0.0000); threshold 0.48; recall 0.683; precision 0.664; persistence recall 0.577, precision 0.766
+   test 2023: train 2019Q1-2021Q4 (n=1276), valid 2022 (n=507), test n=491 firms=133 declines=179 (36.5%); AUC 0.887 (95% CI 0.857 to 0.918); persistence AUC 0.823 (DeLong p=0.0000); threshold 0.46; recall 0.855; precision 0.718; persistence recall 0.754, precision 0.799
+   test 2024: train 2019Q1-2022Q4 (n=1783), valid 2023 (n=491), test n=443 firms=120 declines=150 (33.9%); AUC 0.904 (95% CI 0.875 to 0.933); persistence AUC 0.830 (DeLong p=0.0000); threshold 0.42; recall 0.927; precision 0.668; persistence recall 0.780, precision 0.770
+   test 2025: train 2019Q1-2023Q4 (n=2274), valid 2024 (n=443), test n=421 firms=114 declines=113 (26.8%); AUC 0.893 (95% CI 0.860 to 0.925); persistence AUC 0.793 (DeLong p=0.0000); threshold 0.31; recall 0.903; precision 0.528; persistence recall 0.699, precision 0.693
+
+6. RQ3 OPERATING-POINT UNCERTAINTY (chosen random forest, 2025 test set, threshold fixed on 2024)
+   threshold 0.31: flagged 193 of 421 firm-quarters (45.8%); TP 102, FP 91; recall 0.903 (Wilson 0.834-0.945); precision 0.528 (Wilson 0.458-0.598); false alarms per decline caught 0.89
+   firm-bootstrap 95% CI (2,000 resamples of firms): recall 0.843 to 0.952; precision 0.437 to 0.610; share of resamples with precision below 0.50: 25.2%
+   alternative threshold 0.30: recall 0.920, precision 0.528, flagged 197
+   alternative threshold 0.40: recall 0.858, precision 0.599, flagged 162
+   alternative threshold 0.50: recall 0.814, precision 0.630, flagged 146
+   alternative threshold 0.60: recall 0.779, precision 0.657, flagged 134
+
+7. SERVICES-CORE SAMPLE (SIC breadth): U.S. firms classified in config/gsi_classification.csv as internet platforms, games, advertising technology, software products, data providers or other non-IT-services businesses are removed; government integrators and the business process outsourcer are kept
+   removed 38 firms (875 firm-quarters, 71% of U.S. panel revenue); remaining 163 firms, 2541 firm-quarters
+   RQ1 primary: b=-7.074 (95% CI -13.693 to -0.455) p=0.0362 N=2437 firms=163
+   RQ2 primary: b=0.360 (95% CI 0.012 to 0.709) p=0.0428 N=1060 firms=121
+   RQ2 + quarter fixed effects: b=0.249 (95% CI -0.093 to 0.592) p=0.1539 N=1060 firms=121
+   RQ3 random forest (retrained): test n=311, AUC 0.883; persistence 0.800; recall 0.845; precision 0.621
+   RQ4 GEE Wald chi2=0.49, p=0.781; decline shares: Data processing & managed services 0.355; IT consulting & application services 0.378; Systems integration 0.393
+
+8. RQ4 DIFFERENCES IN DECLINE SHARE BETWEEN SEGMENTS (post-GenAI U.S., firm-bootstrap 95% CI)
+   IT consulting & application services minus Data processing & managed services: +1.0 points (95% CI -11.0 to +13.4)
+   Systems integration minus Data processing & managed services: +4.1 points (95% CI -10.3 to +18.2)
+   Systems integration minus IT consulting & application services: +3.1 points (95% CI -9.6 to +16.3)
+
+9. AI KEYWORD DICTIONARY: PRECISION ON 50 RANDOMLY DRAWN MATCHES
+   sample: 50 matches from 47 filings (9 from filings before 2022Q4); written to results/ai_precision_sample.csv
+   reviewed 50; true AI references 50; precision 1.000 (Wilson 95% CI 0.929 to 1.000)
+   by dictionary term (true / reviewed):
+      \bA\.?I\.?\b(?!-)                             31 / 31
+      \bLLMs?\b                                     1 / 1
+      agentic                                       1 / 1
+      artificial intelligence                       4 / 4
+      generative (?:ai|artificial intelligence)     5 / 5
+      machine learning                              8 / 8
+   what the passage is about (true matches):
+era                                 2022Q4 onward  before 2022Q4  All
+context_type                                                         
+industry or competitive context                 3              0    3
+own business use or offering                   19              8   27
+risk, legal or regulatory language             19              1   20
+All                                            41              9   50

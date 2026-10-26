@@ -39,26 +39,26 @@ RQ3 DETAILS
    test prevalence = 0.268; no-skill Brier p(1-p) = 0.196
    persistence baseline: AUC=0.793 TP=79 FP=35 TN=273 FN=34 recall=0.699 precision=0.693 cost=137
 model               logit  random_forest  xgboost
-val_auc             0.852          0.905    0.900
-threshold           0.530          0.310    0.240
-test_auc            0.856          0.892    0.879
-auc_lo              0.816          0.860    0.841
-auc_hi              0.896          0.925    0.917
-TP                 90.000        102.000   94.000
-FP                 65.000         92.000   59.000
-TN                243.000        216.000  249.000
-FN                 23.000         11.000   19.000
-recall              0.796          0.903    0.832
-rec_lo              0.713          0.834    0.752
-rec_hi              0.860          0.945    0.890
-precision           0.581          0.526    0.614
-prec_lo             0.502          0.456    0.535
-prec_hi             0.655          0.595    0.688
-accuracy            0.791          0.755    0.815
-f1                  0.672          0.664    0.707
-brier               0.176          0.129    0.120
-cost              134.000        125.000  116.000
-delong_vs_base_p    0.002          0.000    0.000
+val_auc             0.854          0.905    0.900
+threshold           0.530          0.310    0.230
+test_auc            0.858          0.893    0.876
+auc_lo              0.819          0.860    0.838
+auc_hi              0.898          0.925    0.915
+TP                 91.000        102.000   93.000
+FP                 63.000         91.000   64.000
+TN                245.000        217.000  244.000
+FN                 22.000         11.000   20.000
+recall              0.805          0.903    0.823
+rec_lo              0.723          0.834    0.742
+rec_hi              0.868          0.945    0.882
+precision           0.591          0.528    0.592
+prec_lo             0.512          0.458    0.514
+prec_hi             0.665          0.598    0.666
+accuracy            0.798          0.758    0.800
+f1                  0.682          0.667    0.689
+brier               0.174          0.129    0.120
+cost              129.000        124.000  124.000
+delong_vs_base_p    0.001          0.000    0.000
    model chosen before opening the test set (highest 2024 validation AUC): random_forest
    acceptance criteria (Table 9 of the synopsis) for the chosen model:
       lower 95% DeLong bound of AUC > 0.50               met
@@ -68,22 +68,22 @@ delong_vs_base_p    0.002          0.000    0.000
       precision >= 0.50                                  met
       Brier below no-skill p(1-p)                        met
    ablation (same model without AI_INTENSITY and GENAI_MENTION):
-      logit         AUC with AI 0.856, without 0.861, difference -0.005 (DeLong z=-0.62, p=0.538)
-      random_forest AUC with AI 0.892, without 0.892, difference +0.001 (DeLong z=0.18, p=0.857)
-      xgboost       AUC with AI 0.879, without 0.882, difference -0.003 (DeLong z=-0.53, p=0.593)
+      logit         AUC with AI 0.858, without 0.861, difference -0.002 (DeLong z=-0.34, p=0.734)
+      random_forest AUC with AI 0.893, without 0.892, difference +0.001 (DeLong z=0.16, p=0.870)
+      xgboost       AUC with AI 0.876, without 0.883, difference -0.006 (DeLong z=-1.21, p=0.227)
    purged-boundary sensitivity (training without 2023Q4, validation without 2024Q4; same models, same threshold rule; train=2157, valid=341):
-      logit         test AUC 0.859 (main 0.856); threshold 0.52; recall 0.788; precision 0.589
-      random_forest test AUC 0.889 (main 0.892); threshold 0.34; recall 0.894; precision 0.552
-      xgboost       test AUC 0.869 (main 0.879); threshold 0.20; recall 0.823; precision 0.517
+      logit         test AUC 0.860 (main 0.858); threshold 0.48; recall 0.832; precision 0.543
+      random_forest test AUC 0.888 (main 0.893); threshold 0.41; recall 0.832; precision 0.606
+      xgboost       test AUC 0.870 (main 0.876); threshold 0.20; recall 0.832; precision 0.547
    mean |SHAP| on the 2025 test set (random_forest):
       REV_GROWTH_YOY                                0.2170
-      REV_GROWTH_LAG1                               0.0875
-      LOG_REVENUE                                   0.0427
-      OP_MARGIN                                     0.0257
+      REV_GROWTH_LAG1                               0.0876
+      LOG_REVENUE                                   0.0426
+      OP_MARGIN                                     0.0256
       AI_INTENSITY                                  0.0142
-      POST_GENAI                                    0.0104
-      IS_10K                                        0.0056
-      GENAI_MENTION                                 0.0050
+      POST_GENAI                                    0.0102
+      IS_10K                                        0.0057
+      GENAI_MENTION                                 0.0051
       SEG_Systems integration                       0.0034
       SEG_IT consulting & application services      0.0029
 

@@ -38,12 +38,12 @@ RQ2 four-quarter average AI score: N=1394 b=0.423 SE=0.167 p=0.0113
 RQ3  train=2274 valid=443 test=421  decline rate=0.296
      test 2025: firms=114 declines=113 non-declines=308
 RQ3  persistence baseline AUC=0.793  prevalence-only Brier=0.197
-RQ3  logit         AUC=0.856 acc=0.791 prec=0.581 rec=0.796 F1=0.672 Brier=0.176 thr=0.53
-     DeLong 95% CI 0.816 to 0.896; firm-bootstrap 95% CI 0.808 to 0.898; vs persistence baseline: diff=0.063 z=3.17 p=0.0015
-RQ3  random_forest AUC=0.892 acc=0.755 prec=0.526 rec=0.903 F1=0.664 Brier=0.129 thr=0.31
-     DeLong 95% CI 0.860 to 0.925; firm-bootstrap 95% CI 0.854 to 0.925; vs persistence baseline: diff=0.100 z=6.08 p=0.0000
-RQ3  xgboost       AUC=0.879 acc=0.815 prec=0.614 rec=0.832 F1=0.707 Brier=0.120 thr=0.24
-     DeLong 95% CI 0.841 to 0.917; firm-bootstrap 95% CI 0.837 to 0.914; vs persistence baseline: diff=0.087 z=4.90 p=0.0000
+RQ3  logit         AUC=0.858 acc=0.798 prec=0.591 rec=0.805 F1=0.682 Brier=0.174 thr=0.53
+     DeLong 95% CI 0.819 to 0.898; firm-bootstrap 95% CI 0.811 to 0.899; vs persistence baseline: diff=0.065 z=3.34 p=0.0008
+RQ3  random_forest AUC=0.893 acc=0.758 prec=0.528 rec=0.903 F1=0.667 Brier=0.129 thr=0.31
+     DeLong 95% CI 0.860 to 0.925; firm-bootstrap 95% CI 0.854 to 0.925; vs persistence baseline: diff=0.100 z=6.10 p=0.0000
+RQ3  xgboost       AUC=0.876 acc=0.800 prec=0.592 rec=0.823 F1=0.689 Brier=0.120 thr=0.23
+     DeLong 95% CI 0.838 to 0.915; firm-bootstrap 95% CI 0.833 to 0.912; vs persistence baseline: diff=0.084 z=4.79 p=0.0000
 
 RQ4 contingency table (descriptive)
  DECLINE_Q                               0    1
