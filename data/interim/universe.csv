@@ -53,7 +53,7 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1017968,,EDGEWATER TECHNOLOGY INC/DE/,7370,IT consulting & application services,Accelerated filer,False
 1022505,SDCH,"SideChannel, Inc.",7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company,False
 1023364,,"AutoWeb, Inc.",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
-1023459,SLP,"Simulations Plus, Inc.",7373,Systems integration,Non-accelerated filer<br>Smaller reporting company,False
+1023459,,"Simulations Plus, Inc.",7373,Systems integration,Non-accelerated filer<br>Smaller reporting company,False
 1023731,EGHT,8X8 INC /DE/,7374,Data processing & managed services,Accelerated filer,False
 1027443,,MACROVISION CORP,7373,Systems integration,,False
 1034760,WYY,WIDEPOINT CORP,7373,Systems integration,Non-accelerated filer<br>Smaller reporting company,False
@@ -317,7 +317,7 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1805833,SST,"System1, Inc.",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
 1809519,GDRX,"GoodRx Holdings, Inc.",7374,Data processing & managed services,Accelerated filer,False
 1810019,RXT,"Rackspace Technology, Inc.",7370,IT consulting & application services,Accelerated filer<br>Smaller reporting company,False
-1811999,FMHS,"FARMHOUSE, INC. /NV",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company,False
+1811999,FMHS,"FARMHOUSE, INC. /NV",7370,IT consulting & application services,<br>Emerging growth company,False
 1815632,TGCB,"Tego Cyber, Inc.",7370,IT consulting & application services,<br>Emerging growth company,False
 1819928,DV,"DoubleVerify Holdings, Inc.",7370,IT consulting & application services,Large accelerated filer,False
 1820144,GRND,Grindr Inc.,7370,IT consulting & application services,Large accelerated filer,False
@@ -346,7 +346,7 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1842563,,"Go Go Buyers, Inc.",7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1842718,,INTEGRAL AD SCIENCE HOLDING CORP.,7370,IT consulting & application services,Large accelerated filer,False
 1846069,NXDR,"Nextdoor Holdings, Inc.",7370,IT consulting & application services,Accelerated filer,False
-1848672,GDLG,Glidelogic Corp.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+1848672,GDLG,Glidelogic Corp.,7371,IT consulting & application services,<br>Emerging growth company,False
 1849635,DJT,Trump Media & Technology Group Corp.,7370,IT consulting & application services,Large accelerated filer,False
 1853084,,Blue Safari Group Acquisition Corp,7374,Data processing & managed services,<br>Emerging growth company,False
 1853138,KDK,"Kodiak AI, Inc.",7373,Systems integration,Accelerated filer<br>Emerging growth company,False
@@ -362,7 +362,7 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1867956,,Linktory Inc.,7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1868419,CYCU,"Cycurion, Inc.",7371,IT consulting & application services,<br>Emerging growth company,False
 1873722,BBLR,Bubblr Inc.,7370,IT consulting & application services,<br>Emerging growth company,False
-1874097,CYN,Cyngn Inc.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+1874097,CYN,Cyngn Inc.,7371,IT consulting & application services,<br>Emerging growth company,False
 1875493,,CSLM ACQUISITION CORP.,7373,Systems integration,<br>Emerging growth company,False
 1879001,,Verses AI Inc.,7370,IT consulting & application services,<br>Emerging growth company,False
 1880431,,Vocodia Holdings Corp,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
@@ -382,13 +382,13 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 1976923,YQAI,"YOUNEEQAI TECHNICAL SERVICES, INC.",7371,IT consulting & application services,,False
 1977837,USDW,MADE IN USA INC.,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1983736,GOAI,Eva Live Inc,7370,IT consulting & application services,<br>Emerging growth company,False
-1985554,LDXC,Londax Corp.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+1985554,ADVI,ALPHA DIGITAL VOLTZ INC.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1989788,GAFC,Guru App Factory Corp,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1990354,WAY,Waystar Holding Corp.,7373,Systems integration,Large accelerated filer,False
 1994373,HNIT,Huineng Technology Corp,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1995920,ESMR,E-Smart Corp.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 1997698,,IGTA Merger Sub Ltd,7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
-1999261,STWI,StageWise Strategies Corp.,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+1999261,TEGO,"TEG OVERSEAS, INC.",7374,Data processing & managed services,<br>Emerging growth company,False
 2000762,,GMTech Inc.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2006291,,Churchill Capital Corp IX/Cayman,7373,Systems integration,<br>Emerging growth company,False
 2007825,INFQ,"Infleqtion, Inc.",7374,Data processing & managed services,<br>Emerging growth company,False
@@ -396,18 +396,18 @@ cik,ticker,name,sic,segment,filer_category,added_by_name
 2010982,PVIT,Palisades Venture Inc.,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2020919,DSFT,DeltaSoft Corp,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2026767,ALIS,Calisa Acquisition Corp,7374,Data processing & managed services,<br>Emerging growth company,False
-2028707,MRLN,"Merlin, Inc.",7373,Systems integration,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+2028707,MRLN,"Merlin, Inc.",7373,Systems integration,<br>Emerging growth company,False
 2029303,THTG,Tech Tonic Group Corp.,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2033383,FUSE,Fusemachines Inc.,7373,Systems integration,<br>Emerging growth company,False
-2033770,DAIC,"CID Holdco, Inc.",7373,Systems integration,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
-2038564,,Alphega Innovations Corp,7374,Data processing & managed services,<br>Emerging growth company,False
+2033770,DAIC,"CID Holdco, Inc.",7373,Systems integration,<br>Emerging growth company,False
+2038564,,Alphega Innovations Corp,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2053927,WTG,Wintergreen Acquisition Corp.,7370,IT consulting & application services,<br>Emerging growth company,False
 2054696,NIQ,NIQ Global Intelligence plc,7370,IT consulting & application services,Non-accelerated filer,False
 2057381,RADC,Readvantage Corp.,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2068385,SHAZ,SharonAI Holdings Inc.,7374,Data processing & managed services,<br>Emerging growth company,False
 2069785,GLOO,"Gloo Holdings, Inc.",7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2070845,SUNI,SUN,7373,Systems integration,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
-2076765,ELVX,Elventix Technology Corp,7374,Data processing & managed services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+2076765,ELVX,Elventix Technology Corp,7374,Data processing & managed services,<br>Emerging growth company,False
 2077033,MMTX,Miluna Acquisition Corp,7371,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
-2088221,,Siltrium Tech Corp,7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
+2088221,SLTC,Siltrium Tech Corp,7370,IT consulting & application services,Non-accelerated filer<br>Smaller reporting company<br>Emerging growth company,False
 2088805,IPXG,Inflection Point Acquisition Corp. VII,7373,Systems integration,<br>Emerging growth company,False

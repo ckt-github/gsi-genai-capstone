@@ -1,11 +1,13 @@
-2026 extension (robustness check), built 26 Oct 2026. Main 2019-2025 results are in results/analysis_output.txt and are not affected.
+2026 extension (robustness check), built 02 Nov 2026. Main 2019-2025 results are in results/analysis_output.txt and are not affected.
 
 Which 2026 quarters are in (rule: >= 60 days old and >= 90% of 2025Q4 firms reported)
 market quarter  days_since_end  firms_reported  base_firms  coverage  included
- India  2026Q1             209              15          15     1.000      True
- India  2026Q2             118              15          15     1.000      True
-    US  2026Q1             209             103         107     0.963      True
-    US  2026Q2             118              95         107     0.888     False
+ India  2026Q1             216              15          15     1.000      True
+ India  2026Q2             125              15          15     1.000      True
+ India  2026Q3              33              13          15     0.867     False
+    US  2026Q1             216             103         107     0.963      True
+    US  2026Q2             125              97         107     0.907      True
+    US  2026Q3              33              20         107     0.187     False
 
 RQ1 extension: year-over-year revenue growth (%) by period
 Note: a few very fast-growing small firms pull the mean up; read the median and trimmed mean too.
@@ -14,11 +16,11 @@ Note: a few very fast-growing small firms pull the mean up; read the median and 
                       n   mean  median  trimmed_mean_5pct
 2023                537   9.71    5.60               6.38
 2024                479   6.93    4.99               4.64
-2025                450  14.75    7.05              10.42
-2026                106  16.64    6.51               9.43
+2025                450  14.86    7.05              10.42
+2026                206  16.31    6.33               9.49
 pre-GenAI 2019-22  1817  20.34   11.12              15.78
-  2026 vs pre-GenAI:                   mean diff=-3.69 pp (Welch p=0.4451, d=-0.079); median 6.51 vs 11.12 (Mann-Whitney p=0.0215)
-  2026 vs same quarters of 2025 (2025Q1): mean diff=+5.63 pp (Welch p=0.3196, d=0.136); median 6.51 vs 5.27 (Mann-Whitney p=0.5358)
+  2026 vs pre-GenAI:                   mean diff=-4.03 pp (Welch p=0.2348, d=-0.086); median 6.33 vs 11.12 (Mann-Whitney p=0.0029)
+  2026 vs same quarters of 2025 (2025Q1, 2025Q2): mean diff=+4.00 pp (Welch p=0.2926, d=0.103); median 6.33 vs 7.01 (Mann-Whitney p=0.8665)
 
 [India]
                      n   mean  median  trimmed_mean_5pct
@@ -30,6 +32,12 @@ pre-GenAI 2019-22  168  15.94   15.72              15.29
   2026 vs pre-GenAI:                   mean diff=-2.92 pp (Welch p=0.2016, d=-0.213); median 12.50 vs 15.72 (Mann-Whitney p=0.2124)
   2026 vs same quarters of 2025 (2025Q1, 2025Q2): mean diff=+1.65 pp (Welch p=0.5878, d=0.141); median 12.50 vs 8.04 (Mann-Whitney p=0.2458)
 
-RQ3 frozen model: trained 2019-2023 (n=2274), tuned on 2024 (n=443); 2025 test n=421; 2026 rows with a known outcome n=0
-  Not enough 2026 rows with a known next-quarter outcome yet. Each 2026 quarter's outcome is the following quarter, so scores appear once two consecutive 2026 quarters are eligible.
+RQ3 frozen model: trained 2019-2023 (n=2274), tuned on 2024 (n=443); 2025 test n=421; 2026 rows with a known outcome n=94
+  2026 decline rate = 0.245 (2025 test: 0.268)
+  logit         2025 test: AUC=0.858 acc=0.798 prec=0.591 rec=0.805 F1=0.682 Brier=0.174 thr=0.53
+                2026 new : AUC=0.897 acc=0.830 prec=0.621 rec=0.783 F1=0.692 Brier=0.171 thr=0.53
+  random_forest 2025 test: AUC=0.893 acc=0.758 prec=0.528 rec=0.903 F1=0.667 Brier=0.129 thr=0.31
+                2026 new : AUC=0.922 acc=0.809 prec=0.568 rec=0.913 F1=0.700 Brier=0.111 thr=0.31
+  xgboost       2025 test: AUC=0.877 acc=0.800 prec=0.592 rec=0.823 F1=0.689 Brier=0.120 thr=0.23
+                2026 new : AUC=0.898 acc=0.830 prec=0.606 rec=0.870 F1=0.714 Brier=0.121 thr=0.23
 

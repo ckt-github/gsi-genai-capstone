@@ -2,8 +2,8 @@ MARKET  PERIOD
 India   post           170
         pre            168
         transition      10
-US      post          1479
-        pre           1838
-        transition     135
+US      post          1466
+        pre           1817
+        transition     133
 dtype: int64
-219 firms, 3,800 firm-quarters
+216 firms, 3,764 firm-quarters

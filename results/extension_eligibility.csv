@@ -1,5 +1,7 @@
 market,quarter,days_since_end,firms_reported,base_firms,coverage,included
-India,2026Q1,209,15,15,1.0,True
-India,2026Q2,118,15,15,1.0,True
-US,2026Q1,209,103,107,0.963,True
-US,2026Q2,118,95,107,0.888,False
+India,2026Q1,216,15,15,1.0,True
+India,2026Q2,125,15,15,1.0,True
+India,2026Q3,33,13,15,0.867,False
+US,2026Q1,216,103,107,0.963,True
+US,2026Q2,125,97,107,0.907,True
+US,2026Q3,33,20,107,0.187,False
