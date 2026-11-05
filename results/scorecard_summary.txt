@@ -1,0 +1,14 @@
+Database: gsi_capstone.sqlite
+Rows per table: firms 216; panel 3,764; panel_extension 4,000; financials_quarterly 12,112; ai_scores 7,896; india_financials_quarterly 495; scorecard 97
+v_rq3_rows by split (before feature completeness): [('test', 437), ('train', 2423), ('validation', 459)]
+
+Scorecard: frozen random forest (trained 2019-2023, threshold 0.31 fixed on 2024), scoring 2026Q2 features for the next quarter
+firms scored 97; bands: Low 58; High 32; Elevated 7
+flagged (score >= 0.31): 39 of 97 (40.2%)
+Named GSIs in the scorecard:
+ticker                                name  risk_score risk_band
+   DXC                   DXC Technology Co       0.930      High
+   ACN                       Accenture plc       0.167       Low
+  EPAM                  EPAM Systems, Inc.       0.144       Low
+  CTSH COGNIZANT TECHNOLOGY SOLUTIONS CORP       0.142       Low
+  IBEX                            IBEX Ltd       0.112       Low
