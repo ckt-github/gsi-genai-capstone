@@ -97,6 +97,12 @@ jobs:
       - name: 11 Sensitivity analyses
         run: python src/11_sensitivity.py
 
+      - name: 12 Final-report metrics and figures
+        run: python src/12_final_report.py
+
+      - name: 13 Database and partner-risk scorecard
+        run: python src/13_database_scorecard.py
+
       - name: Commit outputs
         if: always()   # keep partial progress (e.g. AI scores) even if a later step fails
         run: |
